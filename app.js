@@ -8,6 +8,7 @@ const swaggerDocument = require('./swagger.json');
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const bakeRouter = require("./routes/bake");
 
 const app = express();
 
@@ -22,5 +23,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/bake", bakeRouter);
 
 module.exports = app;
