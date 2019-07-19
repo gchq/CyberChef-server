@@ -24,11 +24,12 @@
     "data analysis"
   ],
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node --experimental-modules ./bin/www",
     "test": "mocha"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cyberchef": "^9.0.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "morgan": "~1.9.1",
