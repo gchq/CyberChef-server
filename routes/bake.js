@@ -1,12 +1,34 @@
-const express = require('express');
-const router = express.Router();
-const chef = require("cyberchef");
+import { Router } from "express"
+const router = Router();
+import { bake } from "cyberchef/src/node/index.mjs";
 
-/* GET bake listing. */
+/**
+ * @swagger
+ * /bake:
+ *    post:
+ *      description: Bake something
+ *      produces: application/json
+ *      parameters: 
+ *        - name: input
+ *          description: input for the recipe
+ *          required: true
+ *          in: query
+ *        - name: recipe
+ *          description: recipe to bake with
+ *          required: true
+ *          in: query
+ *      responses:
+ *        default:
+ *          description: something
+ */
 router.post('/', async function(req, res, next) {
-  const dish = await chef.bake(req.body.input, req.body.recipe);
+  try {
+    const dish = await bake(req.body.input, req.body.recipe);
+    res.send(dish.value);
+  } catch(e) {
+    next(e);
+  }
 
-  res.send(dish.value);
 });
 
-module.exports = router;
+export default router;

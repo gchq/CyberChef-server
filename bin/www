@@ -1,12 +1,11 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
 
-const app = require("../app");
-const debug = require("debug")("cyberchef-server:server");
-const http = require("http");
+import app from  "../app";
+import debug from "debug";
+import { createServer } from "http";
+const deb = debug("cyberchef-server:server");
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +18,7 @@ app.set("port", port);
  * Create HTTP server.
  */
 
-const server = http.createServer(app);
+const server = createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -86,5 +85,5 @@ function onListening() {
   const bind = typeof addr === "string"
     ? "pipe " + addr
     : "port " + addr.port;
-  debug(`Listening on ${bind}`);
+    deb(`Listening on ${bind}`);
 }
