@@ -26,7 +26,7 @@
   "scripts": {
     "dev": "nodemon",
     "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
-    "test": "mocha",
+    "test": "mocha -r esm",
     "prod": "NODE_ENV=production node -r esm ./bin/www"
   },
   "dependencies": {

@@ -1,12 +1,12 @@
-const request = require('supertest');
-const app = require('../app');
+import request from "supertest"
+import app from "../app";
 
-describe('GET /users', function() {
+describe('GET /', function() {
     it('responds with json', function(done) {
       request(app)
-        .get('/users')
+        .get('/')
         .set('Accept', 'application/json')
-        .expect('Content-Type', /text\/html; charset=utf-8/)
+        .expect('Content-Type', /text\/plain; charset=utf-8/)
         .expect(200, done);
     });
   });
