@@ -23,6 +23,19 @@ import { bake } from "cyberchef/src/node/index.mjs";
  */
 router.post('/', async function(req, res, next) {
   try {
+    if (!req.body.input) {
+      throw new TypeError("'input' property is required in request body");
+    }
+
+    if (!req.body.recipe) {
+      throw new TypeError("'recipe' property is required in request body");
+    }
+
+    if (typeof req.body.recipe == "string") {
+      req.body.recipe = JSON.parse(req.body.recipe);
+    } else {
+    }
+
     const dish = await bake(req.body.input, req.body.recipe);
     res.send(dish.value);
   } catch(e) {

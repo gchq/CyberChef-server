@@ -5,6 +5,7 @@ import logger from "morgan";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerDocument from "./swagger.js"
+import errorHandler from "./lib/errorHandler.js";
 
 // https://helmetjs.github.io/
 import helmet from "helmet";
@@ -34,5 +35,8 @@ app.use("/bake", bakeRouter);
 // Swagger docs
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+
+// Error handling - place after all other middleware and routes
+app.use(errorHandler);
 
 export default app;
