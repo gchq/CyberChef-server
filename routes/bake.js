@@ -31,11 +31,6 @@ router.post('/', async function(req, res, next) {
       throw new TypeError("'recipe' property is required in request body");
     }
 
-    if (typeof req.body.recipe == "string") {
-      req.body.recipe = JSON.parse(req.body.recipe);
-    } else {
-    }
-
     const dish = await bake(req.body.input, req.body.recipe);
     res.send(dish.value);
   } catch(e) {
