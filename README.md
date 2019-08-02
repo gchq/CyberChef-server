@@ -1,4 +1,4 @@
-#CyberChef server
+# CyberChef server
 Provide an API for clients to send [Cyberchef](https://gchq.github.io/CyberChef/) recipes to bake.
 
 # Installing
