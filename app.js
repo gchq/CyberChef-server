@@ -1,26 +1,41 @@
-const express = require("express");
-const path = require("path");
-const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
+import express from "express";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerDocument from "./swagger.js";
+import errorHandler from "./lib/errorHandler.js";
+
+// https://helmetjs.github.io/
+import helmet from "helmet";
+
+const swaggerSpec = swaggerJSDoc(swaggerDocument);
 
 
-const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
+import indexRouter from "./routes/index";
+import bakeRouter from "./routes/bake";
 
 const app = express();
 
-app.use(logger("dev"));
+if (process.env.NODE_ENV === "production") {
+    app.use(logger("tiny"));
+    app.use(helmet());
+} else {
+    app.use(logger("dev"));
+}
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Swagger docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/bake", bakeRouter);
 
-module.exports = app;
+// Swagger docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+
+// Error handling - place after all other middleware and routes
+app.use(errorHandler);
+
+export default app;

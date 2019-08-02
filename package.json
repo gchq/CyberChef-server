@@ -1,7 +1,7 @@
 {
   "name": "cyberchef-server",
   "version": "0.0.1",
-  "description": "An application providing RESTful access to CyberChef",
+  "description": "An application providing API access to CyberChef",
   "author": "d98762625 <d98762625@gmail.com>",
   "license": "Apache-2.0",
   "homepage": "https://gchq.github.io/CyberChef",
@@ -24,13 +24,21 @@
     "data analysis"
   ],
   "scripts": {
-    "start": "node ./bin/www"
+    "nodemon": "nodemon",
+    "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
+    "test": "mocha -r esm",
+    "prod": "NODE_ENV=production node -r esm ./bin/www",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cyberchef": "^9.0.1",
     "debug": "~2.6.9",
+    "esm": "^3.2.25",
     "express": "~4.16.1",
+    "helmet": "^3.19.0",
     "morgan": "~1.9.1",
+    "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.6"
   },
   "repository": {
@@ -39,5 +47,11 @@
   },
   "bugs": {
     "url": "https://github.com/gchq/CyberChef-server/issues"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "mocha": "^6.1.4",
+    "nodemon": "^1.19.1",
+    "supertest": "^4.0.2"
   }
 }
