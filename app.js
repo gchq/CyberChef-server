@@ -1,10 +1,9 @@
 import express from "express";
-import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
-import swaggerDocument from "./swagger.js"
+import swaggerDocument from "./swagger.js";
 import errorHandler from "./lib/errorHandler.js";
 
 // https://helmetjs.github.io/
@@ -18,7 +17,7 @@ import bakeRouter from "./routes/bake";
 
 const app = express();
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
     app.use(logger("tiny"));
     app.use(helmet());
 } else {
@@ -33,7 +32,7 @@ app.use("/", indexRouter);
 app.use("/bake", bakeRouter);
 
 // Swagger docs
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 // Error handling - place after all other middleware and routes

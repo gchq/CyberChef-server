@@ -1,4 +1,4 @@
-import { Router } from "express"
+import { Router } from "express";
 const router = Router();
 import { bake } from "cyberchef/src/node/index.mjs";
 
@@ -8,7 +8,7 @@ import { bake } from "cyberchef/src/node/index.mjs";
  *    post:
  *      description: Bake something
  *      produces: application/json
- *      parameters: 
+ *      parameters:
  *        - name: input
  *          description: input for the recipe
  *          required: true
@@ -21,22 +21,21 @@ import { bake } from "cyberchef/src/node/index.mjs";
  *        default:
  *          description: something
  */
-router.post('/', async function(req, res, next) {
-  try {
-    if (!req.body.input) {
-      throw new TypeError("'input' property is required in request body");
+router.post("/", async function(req, res, next) {
+    try {
+        if (!req.body.input) {
+            throw new TypeError("'input' property is required in request body");
+        }
+
+        if (!req.body.recipe) {
+            throw new TypeError("'recipe' property is required in request body");
+        }
+
+        const dish = await bake(req.body.input, req.body.recipe);
+        res.send(dish.value);
+    } catch (e) {
+        next(e);
     }
-
-    if (!req.body.recipe) {
-      throw new TypeError("'recipe' property is required in request body");
-    }
-
-    const dish = await bake(req.body.input, req.body.recipe);
-    res.send(dish.value);
-  } catch(e) {
-    next(e);
-  }
-
 });
 
 export default router;

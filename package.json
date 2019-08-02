@@ -27,7 +27,8 @@
     "nodemon": "nodemon",
     "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
     "test": "mocha -r esm",
-    "prod": "NODE_ENV=production node -r esm ./bin/www"
+    "prod": "NODE_ENV=production node -r esm ./bin/www",
+    "lint": "./node_modules/.bin/eslint ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -48,6 +49,7 @@
     "url": "https://github.com/gchq/CyberChef-server/issues"
   },
   "devDependencies": {
+    "eslint": "^6.1.0",
     "mocha": "^6.1.4",
     "nodemon": "^1.19.1",
     "supertest": "^4.0.2"
