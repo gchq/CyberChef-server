@@ -1,6 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
-import logger from "morgan";
+import pino from "express-pino-logger";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerDocument from "./swagger.js";
@@ -11,17 +11,21 @@ import helmet from "helmet";
 
 const swaggerSpec = swaggerJSDoc(swaggerDocument);
 
-
 import indexRouter from "./routes/index";
 import bakeRouter from "./routes/bake";
 
 const app = express();
 
 if (process.env.NODE_ENV === "production") {
-    app.use(logger("tiny"));
+    app.use(pino({
+        level: "warn"
+    }));
     app.use(helmet());
 } else {
-    app.use(logger("dev"));
+    app.use(pino({
+        level: "debug",
+        prettyPrint: true
+    }));
 }
 
 app.use(express.json());
