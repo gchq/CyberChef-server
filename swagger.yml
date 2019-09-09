@@ -20,6 +20,35 @@ paths:
               oneOf:
                 - $ref: "#/components/schemas/SingleOpRecipe"
                 - $ref: "#/components/schemas/MultiOpRecipe"
+            examples:
+
+              simple:
+                summary: "simple example"
+                value:
+                  input: "some input"
+                  recipe:
+                    op: "toHex"
+              complex:
+                summary: "A more complex example"
+                value:
+                  input: "some input"
+                  recipe:
+                    - op: toHex
+                    - op: toBase64
+                    - op: toBinary
+                      args:
+                        delimiter: "Comma"
+
+      responses:
+        '200':
+          description: Recipe baked successfully
+          content:
+            application/json:
+              schema:
+                type: "string"
+                example: "62 61 6b 65 20 73 6f 6d 65 74 68 69 6e 67"
+        '400':
+          description: Bad request
 
 components:
   schemas:
@@ -28,14 +57,18 @@ components:
       properties:
         input:
           type: string
+          example: "bake this"
         recipe:
           $ref: "#/components/schemas/Operation"
+          example:
+            op: "toHex"
 
     MultiOpRecipe:
       type: object
       properties:
         input: 
           type: string
+          example: "input for recipe"
         recipe:
           type: array
           items:
@@ -59,8 +92,16 @@ components:
     ArgArray:
       type: array
       items:
-        type: string
+        type: {}
+      example: 
+        - 16
+        - true
+        - false
     ArgObject:
       type: object
       additionalProperties: true
+      example: 
+        width: 16
+        upperCaseHex: true
+        includeFinalLength: false
  
