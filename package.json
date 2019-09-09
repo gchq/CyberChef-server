@@ -28,7 +28,7 @@
     "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
     "test": "mocha -r esm",
     "prod": "NODE_ENV=production node -r esm ./bin/www",
-    "lint": "./node_modules/.bin/eslint ."
+    "lint": "./node_modules/.bin/eslint --fix ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",

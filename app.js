@@ -1,5 +1,5 @@
 import fs from "fs";
-import YAML from "yaml"
+import YAML from "yaml";
 import express from "express";
 import cookieParser from "cookie-parser";
 import pino from "express-pino-logger";
@@ -37,7 +37,7 @@ app.use("/", indexRouter);
 app.use("/bake", bakeRouter);
 
 // Swagger docs
-const swaggerFile = fs.readFileSync('./swagger.yml', 'utf8')
+const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 console.log(YAML.parse(swaggerFile));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
 
