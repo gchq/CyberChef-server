@@ -1,0 +1,66 @@
+openapi: 3.0.0
+info:
+  title: CyberChef API
+  description: Some API
+  version: 1.0.0
+
+
+paths:
+  /bake:
+    post:
+      summary: Bakes a recipe
+      description: >
+        Bake a recipe defined in JSON. For an example JSON recipe, build a recipe on 
+        [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON".
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/SingleOpRecipe"
+                - $ref: "#/components/schemas/MultiOpRecipe"
+
+components:
+  schemas:
+    SingleOpRecipe:
+      type: object
+      properties:
+        input:
+          type: string
+        recipe:
+          $ref: "#/components/schemas/Operation"
+
+    MultiOpRecipe:
+      type: object
+      properties:
+        input: 
+          type: string
+        recipe:
+          type: array
+          items:
+            $ref: "#/components/schemas/Operation"
+    Operation:
+      type: object
+      properties:
+        op:
+          type: string
+          required: true
+        args:
+          oneOf:
+            - $ref: "#/components/schemas/ArgArray"
+            - $ref: "#/components/schemas/ArgObject"
+
+    OperationArray:
+      type: array
+      items: 
+        $ref: "#/components/schemas/Operation"
+      
+    ArgArray:
+      type: array
+      items:
+        type: string
+    ArgObject:
+      type: object
+      additionalProperties: true
+ 

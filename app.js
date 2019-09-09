@@ -1,20 +1,21 @@
+import fs from "fs";
+import YAML from "yaml"
 import express from "express";
 import cookieParser from "cookie-parser";
 import pino from "express-pino-logger";
 import swaggerUi from "swagger-ui-express";
-import swaggerJSDoc from "swagger-jsdoc";
-import swaggerDocument from "./swagger.js";
 import errorHandler from "./lib/errorHandler.js";
 
 // https://helmetjs.github.io/
 import helmet from "helmet";
 
-const swaggerSpec = swaggerJSDoc(swaggerDocument);
 
 import indexRouter from "./routes/index";
 import bakeRouter from "./routes/bake";
 
 const app = express();
+app.disable("x-powered-by");
+
 
 if (process.env.NODE_ENV === "production") {
     app.use(pino({
@@ -36,7 +37,9 @@ app.use("/", indexRouter);
 app.use("/bake", bakeRouter);
 
 // Swagger docs
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+const swaggerFile = fs.readFileSync('./swagger.yml', 'utf8')
+console.log(YAML.parse(swaggerFile));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
 
 
 // Error handling - place after all other middleware and routes

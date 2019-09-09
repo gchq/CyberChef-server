@@ -38,8 +38,8 @@
     "express": "~4.16.1",
     "express-pino-logger": "^4.0.0",
     "helmet": "^3.19.0",
-    "swagger-jsdoc": "^3.2.9",
-    "swagger-ui-express": "^4.0.6"
+    "swagger-ui-express": "^4.0.6",
+    "yaml": "^1.6.0"
   },
   "repository": {
     "type": "git",
