@@ -36,8 +36,11 @@ app.use(cookieParser());
 const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 
 // Routes
-app.use("/", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
 app.use("/bake", bakeRouter);
+
+
+// Default route
+app.get("/", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
 
 
 // Error handling - place after all other middleware and routes
