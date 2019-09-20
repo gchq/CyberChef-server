@@ -12,6 +12,11 @@ paths:
       description: >
         Bake a recipe defined in JSON. For an example JSON recipe, build a recipe on 
         [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON".
+        
+
+        The Recipe property in the payload is designed so that you only need to provide
+        arguments for operations if they are required, or you want to change them from the default.
+        For more information on accepted recipe formats, see the [bake section of the Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#bake)
       requestBody:
         required: true
         content:
@@ -20,24 +25,14 @@ paths:
               oneOf:
                 - $ref: "#/components/schemas/SingleOpRecipe"
                 - $ref: "#/components/schemas/MultiOpRecipe"
-            examples:
-
-              simple:
-                summary: "simple example"
-                value:
-                  input: "some input"
-                  recipe:
-                    op: "toHex"
-              complex:
-                summary: "A more complex example"
-                value:
-                  input: "some input"
-                  recipe:
-                    - op: toHex
-                    - op: toBase64
-                    - op: toBinary
-                      args:
-                        delimiter: "Comma"
+            example:
+              input: "some input"
+              recipe:
+                - op: toHex
+                - op: toBase64
+                - op: toBinary
+                  args:
+                    delimiter: "Comma"
 
       responses:
         '200':

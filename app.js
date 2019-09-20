@@ -9,8 +9,6 @@ import errorHandler from "./lib/errorHandler.js";
 // https://helmetjs.github.io/
 import helmet from "helmet";
 
-
-import indexRouter from "./routes/index";
 import bakeRouter from "./routes/bake";
 
 const app = express();
@@ -33,13 +31,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/", indexRouter);
-app.use("/bake", bakeRouter);
 
 // Swagger docs
 const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
-console.log(YAML.parse(swaggerFile));
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
+
+// Routes
+app.use("/", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
+app.use("/bake", bakeRouter);
 
 
 // Error handling - place after all other middleware and routes
