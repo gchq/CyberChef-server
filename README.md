@@ -25,8 +25,17 @@ SO LONG, AND THANKS FOR ALL THE FISH
 - **Compatible with recipes saved from CyberChef**.
 After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and find a suitable recipe, the exported recipe JSON can be used to post to the `/bake` endpoint. Just copy/paste it in as your `recipe` property as part of the POST body.
 
+
+## Installing
+- Clone the repository
+- `cd` into the project and run `npm install`
+- Run `npm run`. 
+- In a browser, navigate to `localhost:3000` to see usage documentation.
+
+
+
 ## API overview
-> For full documentation of the API, you can find the swagger page hosted at the root url. See [Installing](#Installing) below.
+> For full documentation of the API, you can find the swagger page hosted at the root url. See [Installing](#Installing) to run the application and browse the docs.
 
 Currently the server just has one endpoint: `/bake`. This endpoint accepts a POST request with the following body:
 
@@ -93,10 +102,4 @@ For more information on how operation names are handled, see the [Node API docs]
 }
 // response: 31d6cfe0d16ae931b73c59d7e0c089c0
 ```
-
-## Installing
-- Clone the repository
-- `cd` into the project and run `npm install`
-- Run `npm run`. 
-- In a browser, navigate to `localhost:3000` to see usage documentation.
 
