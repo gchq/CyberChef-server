@@ -29,7 +29,7 @@ After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and fin
 ## Installing
 - Clone the repository
 - `cd` into the project and run `npm install`
-- Run `npm run`. 
+- Run `npm run`
 - In a browser, navigate to `localhost:3000` to see usage documentation.
 
 
