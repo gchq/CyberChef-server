@@ -103,3 +103,7 @@ For more information on how operation names are handled, see the [Node API docs]
 // response: 31d6cfe0d16ae931b73c59d7e0c089c0
 ```
 
+
+## Licencing
+
+CyberChef-server is released under the [Apache 2.0 Licence](https://www.apache.org/licenses/LICENSE-2.0) and is covered by [Crown Copyright](https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/copyright-and-re-use/crown-copyright/).
