@@ -44,7 +44,7 @@ Currently the server just has one endpoint: `/bake`. This endpoint accepts a POS
 input|String|The input data for the recipe. Currently accepts strings.
 recipe|String or Object or Array|One or more operations, with optional arguments. Uses default arguments if they're not defined here.
 
-### Example: one operation, default arguments
+#### Example: one operation, default arguments
 ```javascript
 {
     "input": "One, two, three, four.",
@@ -56,7 +56,7 @@ recipe|String or Object or Array|One or more operations, with optional arguments
 For more information on how operation names are handled, see the [Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#operation-names)
 
 
-### Example: one operation, non-default arguments by name
+#### Example: one operation, non-default arguments by name
 ```javascript
 {
     "input": "One, two, three, four.",
@@ -70,7 +70,7 @@ For more information on how operation names are handled, see the [Node API docs]
 // response: 79:110:101:44:32:116:119:111:44:32:116:104:114:101:101:44:32:102:111:117:114:46
 ```
 
-### Example: one operation, non-default arguments by position
+#### Example: one operation, non-default arguments by position
 ```javascript
 {
     "input": "One, two, three, four.",
@@ -82,7 +82,7 @@ For more information on how operation names are handled, see the [Node API docs]
 // response: 79:110:101:44:32:116:119:111:44:32:116:104:114:101:101:44:32:102:111:117:114:46
 ```
 
-### Example: all together
+#### Example: all together
 ```javascript
 {
     "input": "One, two, three, four.",
