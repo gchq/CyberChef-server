@@ -71,16 +71,14 @@ describe("POST /bake", function() {
             .expect("54:65:73:74:69:6e:67:2c:20:31:20:32:20:33", done);
     });
 
-    // We know this breaks because an the moment the NodeRecipe validator cant handle an object with
-    // an op but no argument
-    // it("should parse the recipe if it is an operation with no custom arguments", (done) => {
-    //     request(app)
-    //         .post("/bake")
-    //         .set("Content-Type", "application/json")
-    //         .send({input: "Testing, 1 2 3", recipe: {op: "to hex" }})
-    //         .expect(200)
-    //         .expect("54 65 73 74 69 6e 67 2c 20 31 20 32 20 33", done);
-    // });
+    it("should parse the recipe if it is an operation with no custom arguments", (done) => {
+        request(app)
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({input: "Testing, 1 2 3", recipe: {op: "to hex" }})
+            .expect(200)
+            .expect("54 65 73 74 69 6e 67 2c 20 31 20 32 20 33", done);
+     });
 
     it("should parse a recipe in the compact JSON format taken from the CyberChef website", (done) => {
         request(app)
