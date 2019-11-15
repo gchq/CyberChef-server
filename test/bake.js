@@ -78,7 +78,7 @@ describe("POST /bake", function() {
             .send({input: "Testing, 1 2 3", recipe: {op: "to hex" }})
             .expect(200)
             .expect("54 65 73 74 69 6e 67 2c 20 31 20 32 20 33", done);
-     });
+    });
 
     it("should parse a recipe in the compact JSON format taken from the CyberChef website", (done) => {
         request(app)
