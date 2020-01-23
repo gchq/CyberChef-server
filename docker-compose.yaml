@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  cyberchef-server:
+    container_name: cyberchef-server
+    #image: wlambert/cyberchef-server
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
