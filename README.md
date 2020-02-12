@@ -33,6 +33,21 @@ After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and fin
 - In a browser, navigate to `localhost:3000` to see usage documentation.
 
 
+### Docker
+A Docker image can be built, then run by doing the following:
+
+- `git clone https://github.com/gchq/CyberChef-server`
+- `sudo docker build -t mylocalrepo/cyberchef-server .`
+- `sudo docker run -dit --name=cyberchef-server -p 0.0.0.0:3000:3000 mylocalrepo/cyberchef-server`
+
+Alternatively, docker-compose can be used to build/run an image as follows (once inside of the `Cyberchef-Server` directory after cloning):
+
+- `sudo docker-compose up -d`
+
+Or, a prebuilt image can be pulled (from Dockerhub) and run via the following:
+
+- `sudo docker run -dit --name=cyberchef-server -p 0.0.0.0:3000:3000 wlambert/cyberchef-server`
+
 
 ## API overview
 > For full documentation of the API, you can find the swagger page hosted at the root url. See [Installing](#Installing) to run the application and browse the docs.
