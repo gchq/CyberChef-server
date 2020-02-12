@@ -1,6 +1,7 @@
 import request from "supertest";
 import app from "../app";
 
+
 describe("GET /bake", function() {
     it("doesnt exist", function(done) {
         request(app)
@@ -189,6 +190,21 @@ describe("POST /bake", function() {
             })
             .expect(400)
             .expect("Invalid data type string. No matching enum.", done);
+    });
+
+    it("should perform MAGIC", (done) => {
+        request(app)
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({
+                input: "You're a wizard, Harry.",
+                recipe: [
+                    "To Hex",
+                    "Magic"
+                ]
+            })
+            .expect(200)
+            .expect("something", done);
     });
 
 });
