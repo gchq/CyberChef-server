@@ -120,6 +120,6 @@ describe("POST /bake", function() {
             })
             .expect(400)
             .expect("Invalid key length: 2 bytes\n\nThe following algorithms will be used based on the size of the key:\n  16 bytes = AES-128\n  24 bytes = AES-192\n  32 bytes = AES-256", done);
-    })
+    });
 
 });
