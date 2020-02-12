@@ -40,7 +40,8 @@ app.use("/bake", bakeRouter);
 
 
 // Default route
-app.get("/", swaggerUi.serve, swaggerUi.setup(YAML.parse(swaggerFile)));
+app.use("/", swaggerUi.serve);
+app.get("/", swaggerUi.setup(YAML.parse(swaggerFile)));
 
 
 // Error handling - place after all other middleware and routes
