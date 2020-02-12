@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { bake } from "cyberchef/src/node/index.mjs";
+import { bake, Dish } from "cyberchef/src/node/index.mjs";
 
 /**
  * bakePost
@@ -16,7 +16,18 @@ router.post("/", async function bakePost(req, res, next) {
         }
 
         const dish = await bake(req.body.input, req.body.recipe);
-        res.send(dish.value);
+
+        // Attempt to translate to another type. Any translation errors
+        // propagate through to the errorHandler.
+        if (req.body.outputType) {
+            dish.get(req.body.outputType);
+        }
+
+        res.send({
+            value: dish.value,
+            type: Dish.enumLookup(dish.type),
+        });
+
     } catch (e) {
         next(e);
     }
