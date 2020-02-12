@@ -105,4 +105,21 @@ describe("POST /bake", function() {
             .expect("begin_something_anananaaaaak_da_aaak_da_aaaaananaaaaaaan_da_aaaaaaanan_da_aaak_end_something", done);
     });
 
+    it("should return a useful error if we give an input/recipe combination that results in an OperationError", (done) => {
+        request(app)
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({
+                input: "irrelevant",
+                recipe: {
+                    op: "AES Encrypt",
+                    args: {
+                        key: "notsixteencharslong"
+                    }
+                }
+            })
+            .expect(400)
+            .expect("Invalid key length: 2 bytes\n\nThe following algorithms will be used based on the size of the key:\n  16 bytes = AES-128\n  24 bytes = AES-192\n  32 bytes = AES-256", done);
+    });
+
 });
