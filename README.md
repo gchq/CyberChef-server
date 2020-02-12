@@ -38,8 +38,8 @@ A Docker image can be built, then run by doing the following:
 
 - `git clone https://github.com/gchq/CyberChef-server`
 - `cd CyberChef-server`
-- `sudo docker build -t mylocalrepo/cyberchef-server .`
-- `sudo docker run -dit --name=cyberchef-server -p 0.0.0.0:3000:3000 mylocalrepo/cyberchef-server`
+- `docker build -t mylocalrepo/cyberchef-server .`
+- `docker run -dit --name=cyberchef-server -p 0.0.0.0:3000:3000 mylocalrepo/cyberchef-server`
 
 
 ## API overview
