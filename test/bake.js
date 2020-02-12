@@ -47,7 +47,7 @@ describe("POST /bake", function() {
             .expect({
                 value: "00000000  68 65 6c 6c 6f                                   |hello|",
                 type: "string",
-             }, done);
+            }, done);
     });
 
     it("should parse the recipe if it is a valid operation name string", (done) => {
@@ -83,7 +83,7 @@ describe("POST /bake", function() {
             .expect({
                 value: "54:65:73:74:69:6e:67:2c:20:31:20:32:20:33",
                 type: "string",
-             }, done);
+            }, done);
     });
 
     it("should parse the recipe if it is an operation with no custom arguments", (done) => {
@@ -95,7 +95,7 @@ describe("POST /bake", function() {
             .expect({
                 value: "54 65 73 74 69 6e 67 2c 20 31 20 32 20 33",
                 type: "string",
-             }, done);
+            }, done);
     });
 
     it("should parse a recipe in the compact JSON format taken from the CyberChef website", (done) => {
@@ -107,7 +107,7 @@ describe("POST /bake", function() {
             .expect({
                 value: "begin_something_anananaaaaak_da_aaak_da_aaaaananaaaaaaan_da_aaaaaaanan_da_aaak_end_something",
                 type: "string",
-             }, done);
+            }, done);
     });
 
     it("should parse a recipe ib the clean JSON format taken from the CyberChef website", (done) => {
@@ -126,7 +126,7 @@ describe("POST /bake", function() {
             .expect({
                 value: "begin_something_anananaaaaak_da_aaak_da_aaaaananaaaaaaan_da_aaaaaaanan_da_aaak_end_something",
                 type: "string",
-             }, done);
+            }, done);
     });
 
     it("should return a useful error if we give an input/recipe combination that results in an OperationError", (done) => {
@@ -159,7 +159,7 @@ describe("POST /bake", function() {
             .expect({
                 value: [54, 57, 32, 55, 50, 32, 55, 50, 32, 54, 53, 32, 54, 55, 32, 55, 53, 32, 54, 99, 32, 54, 49, 32, 55, 50, 32, 50, 48, 32, 54, 49, 32, 54, 99, 32, 54, 51, 32, 54, 102, 32, 55, 54, 32, 54, 53],
                 type: "byteArray",
-             }, done);
+            }, done);
     });
 
     it("should return a json output as a number, if outputType is defined", (done) => {
@@ -175,20 +175,20 @@ describe("POST /bake", function() {
             .expect({
                 value: 3.893660689688185,
                 type: "number",
-             }, done);
+            }, done);
     });
 
     it("should return a useful error if returnType is given but has an invalid value", (done) => {
         request(app)
-        .post("/bake")
-        .set("Content-Type", "application/json")
-        .send({
-            input: "irregular alcove",
-            recipe: "to hex",
-            outputType: "some invalid type",
-        })
-        .expect(400)
-        .expect("Invalid data type string. No matching enum.", done);
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({
+                input: "irregular alcove",
+                recipe: "to hex",
+                outputType: "some invalid type",
+            })
+            .expect(400)
+            .expect("Invalid data type string. No matching enum.", done);
     });
 
 });
