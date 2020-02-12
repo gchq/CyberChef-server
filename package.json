@@ -28,18 +28,19 @@
     "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
     "test": "mocha -r esm",
     "prod": "NODE_ENV=production node -r esm ./bin/www",
-    "lint": "./node_modules/.bin/eslint --fix ."
+    "lint": "./node_modules/.bin/eslint --fix .",
+    "lint-test": "./node_modules/.bin/eslint ."
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
-    "cyberchef": "^9.0.1",
+    "cyberchef": "^9.7.15",
     "debug": "~2.6.9",
     "esm": "^3.2.25",
     "express": "~4.16.1",
     "express-pino-logger": "^4.0.0",
-    "helmet": "^3.19.0",
-    "swagger-ui-express": "^4.0.6",
-    "yaml": "^1.6.0"
+    "helmet": "^3.21.1",
+    "swagger-ui-express": "^4.1.2",
+    "yaml": "^1.7.2"
   },
   "repository": {
     "type": "git",
@@ -49,10 +50,10 @@
     "url": "https://github.com/gchq/CyberChef-server/issues"
   },
   "devDependencies": {
-    "eslint": "^6.1.0",
-    "mocha": "^6.1.4",
-    "nodemon": "^1.19.1",
-    "pino-pretty": "^3.2.1",
+    "eslint": "^6.5.1",
+    "mocha": "^6.2.1",
+    "nodemon": "^1.19.4",
+    "pino-pretty": "^3.2.2",
     "supertest": "^4.0.2"
   }
 }
