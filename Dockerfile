@@ -4,7 +4,6 @@ LABEL description="Dockerised version of Cyberchef server (https://github.com/gc
 LABEL copyright "Crown Copyright 2020"
 LABEL license "Apache-2.0"
 COPY . /CyberChef-server
-RUN apk update && apk add --update npm &&\
-    npm cache clean --force && \
-    npm install /CyberChef-server
-ENTRYPOINT ["/usr/bin/npm", "--prefix", "/CyberChef-server", "run", "prod"]
+RUN npm cache clean --force && \
+         npm install /CyberChef-server
+ENTRYPOINT ["npm", "--prefix", "/CyberChef-server", "run", "prod"]
