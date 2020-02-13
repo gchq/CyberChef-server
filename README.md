@@ -17,7 +17,10 @@ curl -X POST -H "Content-Type:application/json" -d '{"input":"... ---:.-.. --- -
 ```
 response:
 ```
-SO LONG, AND THANKS FOR ALL THE FISH
+{
+    value: "SO LONG, AND THANKS FOR ALL THE FISH",
+    type: "string"
+}
 ```
 
 
@@ -43,6 +46,7 @@ Currently the server just has one endpoint: `/bake`. This endpoint accepts a POS
 |---|---|---|
 input|String|The input data for the recipe. Currently accepts strings.
 recipe|String or Object or Array|One or more operations, with optional arguments. Uses default arguments if they're not defined here.
+outputType (optional)|String|The [Data Type](https://github.com/gchq/CyberChef/wiki/Adding-a-new-operation#data-types) that you would like the result of the bake to be returned as. This will not work with `File` or `List<File>` at the moment.
 
 #### Example: one operation, default arguments
 ```javascript
@@ -50,10 +54,17 @@ recipe|String or Object or Array|One or more operations, with optional arguments
     "input": "One, two, three, four.",
     "recipe": "to decimal"
 }
-
-// response: 79 110 101 44 32 116 119 111 44 32 116 104 114 101 101 44 32 102 111 117 114 46
 ```
-For more information on how operation names are handled, see the [Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#operation-names)
+
+Response:
+```javascript
+{
+    value: "79 110 101 44 32 116 119 111 44 32 116 104 114 101 101 44 32 102 111 117 114 46",
+    type: "string"
+}
+
+```
+> For more information on how operation names are handled, see the [Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#operation-names)
 
 
 #### Example: one operation, non-default arguments by name
@@ -67,7 +78,13 @@ For more information on how operation names are handled, see the [Node API docs]
         }
     }
 }
-// response: 79:110:101:44:32:116:119:111:44:32:116:104:114:101:101:44:32:102:111:117:114:46
+```
+Response:
+```javascript
+{
+    value: "79:110:101:44:32:116:119:111:44:32:116:104:114:101:101:44:32:102:111:117:114:46",
+    type: "string"
+}
 ```
 
 #### Example: one operation, non-default arguments by position
@@ -79,7 +96,13 @@ For more information on how operation names are handled, see the [Node API docs]
         "args": ["Colon"]
     }
 }
-// response: 79:110:101:44:32:116:119:111:44:32:116:104:114:101:101:44:32:102:111:117:114:46
+```
+Response:
+```javascript
+{
+    value: "79:110:101:44:32:116:119:111:44:32:116:104:114:101:101:44:32:102:111:117:114:46",
+    type: "string"
+}
 ```
 
 #### Example: all together
@@ -100,9 +123,34 @@ For more information on how operation names are handled, see the [Node API docs]
         "MD4"
     ]
 }
-// response: 31d6cfe0d16ae931b73c59d7e0c089c0
+
+```
+Response:
+```javascript
+{
+    value: "31d6cfe0d16ae931b73c59d7e0c089c0",
+    type: "string"
+}
 ```
 
+
+#### Example: Define outputType
+`toDecimal` has an outputType of `string`. Here we are asking to translate the output to a number before returning.
+```javascript
+{
+    "input": "One, two, three, four.",
+    "recipe": "to decimal",
+    "outputType": "number"
+}
+```
+Response:
+```javascript
+{
+    // Be wary, type conversions do not always behave as expected.
+    "value": 79,
+    "type": "number"
+}
+```
 
 ## Licencing
 
