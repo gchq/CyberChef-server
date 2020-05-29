@@ -6,6 +6,62 @@ info:
 
 
 paths:
+  /operations:
+    get:
+      summary: List available operations
+      description: >
+        Retrieve a list of all available operations on this server.
+        The return value is an object whose attributes are operation names,
+        and each attribute value is the description of the arguments
+        the argument takes.
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                example: >
+                    {
+                       "FromBase64" : {
+                          "alphabet" : {
+                             "type" : "editableOption",
+                             "options" : [
+                                {
+                                   "name" : "Standard (RFC 4648): A-Za-z0-9+/=",
+                                   "value" : "A-Za-z0-9+/="
+                                },
+                                {
+                                   "name" : "URL safe (RFC 4648 §5): A-Za-z0-9-_",
+                                   "value" : "A-Za-z0-9-_"
+                                },
+                                [...]
+                             ]
+                          },
+                          "removeNon-alphabetChars" : {
+                             "type" : "boolean",
+                             "value" : true
+                          }
+                       },
+                       "ToBase64" : {
+                          "alphabet" : {
+                             "type" : "editableOption",
+                             "options" : [
+                                {
+                                   "name" : "Standard (RFC 4648): A-Za-z0-9+/=",
+                                   "value" : "A-Za-z0-9+/="
+                                },
+                                {
+                                   "name" : "URL safe (RFC 4648 §5): A-Za-z0-9-_",
+                                   "value" : "A-Za-z0-9-_"
+                                },
+                                [...]
+                             ]
+                          }
+                       },
+                       [...]
+                    }
+
   /bake:
     post:
       summary: Bakes a recipe

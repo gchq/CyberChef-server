@@ -10,6 +10,7 @@ import errorHandler from "./lib/errorHandler.js";
 import helmet from "helmet";
 
 import bakeRouter from "./routes/bake";
+import operationsRouter from "./routes/operations";
 
 const app = express();
 app.disable("x-powered-by");
@@ -37,6 +38,7 @@ const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 
 // Routes
 app.use("/bake", bakeRouter);
+app.use("/operations", operationsRouter);
 
 
 // Default route
