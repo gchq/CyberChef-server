@@ -11,6 +11,7 @@ import helmet from "helmet";
 
 import bakeRouter from "./routes/bake";
 import magicRouter from "./routes/magic";
+import operationsRouter from "./routes/operations";
 
 const app = express();
 app.disable("x-powered-by");
@@ -39,6 +40,7 @@ const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 // Routes
 app.use("/bake", bakeRouter);
 app.use("/magic", magicRouter);
+app.use("/operations", operationsRouter);
 
 
 // Default route
