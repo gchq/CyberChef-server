@@ -192,7 +192,7 @@ describe("POST /bake", function() {
             .expect("Invalid data type string. No matching enum.", done);
     });
 
-    it("should perform MAGIC", (done) => {
+    it("should not perform MAGIC via /bake", (done) => {
         request(app)
             .post("/bake")
             .set("Content-Type", "application/json")
@@ -203,8 +203,8 @@ describe("POST /bake", function() {
                     "Magic"
                 ]
             })
-            .expect(200)
-            .expect("something", done);
+            .expect(400)
+            .expect("flowControl operations like Magic are not currently allowed in recipes for chef.bake in the Node API", done);
     });
 
 });
