@@ -48,7 +48,11 @@ A Docker image can be built, then run by doing the following:
 ## API overview
 > For full documentation of the API, you can find the swagger page hosted at the root url. See [Installing](#Installing) to run the application and browse the docs.
 
-The server has two endpoints: `/bake` and `/magic`.
+The server has these endpoints:
+
+* [`/bake`](#user-content-bake)
+* [`/magic`](#user-content-magic)
+* [`/operations`](#user-content-operations)
 
 ### `/bake`
 
@@ -212,6 +216,54 @@ Response:
 }
 ```
 
+
+### `/operations`
+
+This endpoint accepts a GET request and responds with a JSON object listing the available operations on this server. Each operation name is one attribute, and its value is the description of the arguments it can take.
+
+#### Example: operation list
+Response:
+```javascript
+{
+   "FromBase64" : {
+      "alphabet" : {
+         "type" : "editableOption",
+         "options" : [
+            {
+               "name" : "Standard (RFC 4648): A-Za-z0-9+/=",
+               "value" : "A-Za-z0-9+/="
+            },
+            {
+               "name" : "URL safe (RFC 4648 §5): A-Za-z0-9-_",
+               "value" : "A-Za-z0-9-_"
+            },
+            [...]
+         ]
+      },
+      "removeNon-alphabetChars" : {
+         "type" : "boolean",
+         "value" : true
+      }
+   },
+   "ToBase64" : {
+      "alphabet" : {
+         "type" : "editableOption",
+         "options" : [
+            {
+               "name" : "Standard (RFC 4648): A-Za-z0-9+/=",
+               "value" : "A-Za-z0-9+/="
+            },
+            {
+               "name" : "URL safe (RFC 4648 §5): A-Za-z0-9-_",
+               "value" : "A-Za-z0-9-_"
+            },
+            [...]
+         ]
+      }
+   },
+   [...]
+}
+```
 
 ## Licencing
 
