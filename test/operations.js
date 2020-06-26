@@ -14,7 +14,7 @@ describe("GET /operations", function() {
             .get("/operations")
             .expect(200)
             .end(function(err, res) {
-                if(err) return done(err);
+                if (err) return done(err);
                 assert.notStrictEqual(res.body.ToBraille, undefined);
                 assert.notStrictEqual(res.body.ToBase, undefined);
                 done();
