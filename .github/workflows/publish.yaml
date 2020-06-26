@@ -1,8 +1,11 @@
-name: Publish node.js package to npm
+name: Publish node.js package to npm whenever a tag is pushed to master
 
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - master
+    tags:
+      - v*
 
 jobs:
   build:
