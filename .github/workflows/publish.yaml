@@ -2,8 +2,6 @@ name: Publish node.js package to npm whenever a tag is pushed to master
 
 on:
   push:
-    branches:
-      - master
     tags:
       - v*
 
