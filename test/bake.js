@@ -208,3 +208,37 @@ describe("POST /bake", function() {
     });
 
 });
+
+describe("POST /bake files", function () {
+    it("should take input as a multipart file upload", (done) => {
+        request(app)
+            .post("/bake")
+            .field("recipe", "from hex")
+            .attach("input", "test/test-hex-input.txt")
+            .expect(200, done);
+    });
+
+    it("should take input as a multipart field", (done) => {
+        request(app)
+            .post("/bake")
+            .field("recipe", "to morse code")
+            .field("input", "The crowds stared around wildly")
+            .expect(200, done);
+    });
+
+    it("should perform a simple recipe with input as a form field", (done) => {
+        request(app)
+            .post("/bake")
+            .field("recipe", "to morse code")
+            .field("input", "The crowds stared around wildly")
+            .expect(200)
+            .expect({
+                value: `- .... .
+-.-. .-. --- .-- -.. ...
+... - .- .-. . -..
+.- .-. --- ..- -. -..
+.-- .. .-.. -.. .-.. -.--`,
+                type: "string",
+            }, done);
+    })
+});

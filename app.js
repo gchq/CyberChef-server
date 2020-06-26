@@ -16,9 +16,10 @@ const app = express();
 app.disable("x-powered-by");
 
 
-if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production" || process.env.TEST_LOGGING) {
     app.use(pino({
-        level: "warn"
+        level: "warn",
+        prettyPrint: true,
     }));
     app.use(helmet());
 } else {
