@@ -48,7 +48,13 @@ A Docker image can be built, then run by doing the following:
 ## API overview
 > For full documentation of the API, you can find the swagger page hosted at the root url. See [Installing](#Installing) to run the application and browse the docs.
 
-Currently the server just has one endpoint: `/bake`. This endpoint accepts a POST request with the following body:
+The server has two endpoints: `/bake` and `/magic`.
+
+### `/bake`
+
+`/bake` allows a user to POST some input and configuration for a CyberChef Recipe. The application will run the input through the recipe and return the baked operation.
+
+This endpoint accepts a POST request with the following body:
 
 |Parameter|Type|Description|
 |---|---|---|
@@ -159,6 +165,53 @@ Response:
     "type": "number"
 }
 ```
+
+### `/magic`
+
+[Find more information about what the Magic operation does here](https://github.com/gchq/CyberChef/wiki/Automatic-detection-of-encoded-data-using-CyberChef-Magic)
+
+The Magic operation cannot be used in conjunction with other applications in the `/bake` endpoint.
+
+
+|Parameter|Type|Description|
+|---|---|---|
+input|String|The input data for the recipe. Currently accepts strings.
+args|Object or Array|Arguments for the magic operation
+
+#### Example: detecting hex
+```javascript
+{
+    "input": "4f 6e 65 2c 20 74 77 6f 2c 20 74 68 72 65 65 2c 20 66 6f 75 72 2e"
+}
+```
+Response:
+```javascript
+{
+    "value": [
+        {
+            "recipe": [
+                { "op": "From Hex", "args": [ "Space" ] }
+            ],
+            "data": "One, two, three, four.",
+            "languageScores": [
+                { "lang": "en", "score": 442.77940826119266, "probability": 2.8158586573567845e-12 },
+                { "lang": "de", "score": 555.3142876037181, "probability": 0 },
+                { "lang": "pl", "score": 560.9378201619123, "probability": 0 },
+                ...
+            ],
+            "fileType": null,
+            "isUTF8": true,
+            "entropy": 3.5383105956150076,
+            "matchingOps": [],
+            "useful": false,
+            "matchesCrib": null
+        },
+        ...
+    ],
+    "type":6
+}
+```
+
 
 ## Licencing
 
