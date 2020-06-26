@@ -5,7 +5,7 @@ import { operations } from "cyberchef/src/node/index.mjs";
 /**
  * operationsGet
  */
-router.get("/", async (req, res, next) => {
+router.get("/", async function (req, res, next) {
     const ret = {};
     for (const op of operations) {
         if (op.opName) ret[op.opName] = op.args;
