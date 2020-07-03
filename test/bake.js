@@ -1,5 +1,10 @@
+import assert from "assert";
+
 import request from "supertest";
+
 import app from "../app";
+
+const testDataPath = "test/test_data";
 
 
 describe("GET /bake", function() {
@@ -205,6 +210,165 @@ describe("POST /bake", function() {
             })
             .expect(400)
             .expect("flowControl operations like Magic are not currently allowed in recipes for chef.bake in the Node API", done);
+    });
+
+});
+
+describe("POST /bake files", function () {
+    it("should complain if you do not send a recipe with your input", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("input", `${testDataPath}/hex_input.txt`)
+            .expect(400, done);
+    });
+
+    it("should complain if it cannot find input field in form", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_single_op.json`)
+            .expect(400, done);
+    });
+
+    it("should complain if it cannot find a matching operation - single op recipe - input field", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_single_op_invalid.json`)
+            .field("input", "testing - one, two, three")
+            .expect(400, done);
+    });
+
+    it("should complain if it cannot find a matching operation - multi-op recipe - input field", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_multi_op_invalid.json`)
+            .field("input", "testing - one, two, three")
+            .expect(400, done);
+    });
+
+    it("should complain if the recipe file is not valid JSON", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_invalid_json.json`)
+            .field("input", "testing - one, two, three")
+            .expect(400, done);
+    });
+
+    it("should take input as a multipart field", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_single_op.json`)
+            .field("input", "The crowds stared around wildly")
+            .expect(200, done);
+    });
+
+    it("should take input as a multipart file upload", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_single_op.json`)
+            .attach("input", `${testDataPath}/hex_input.txt`)
+            .expect(200, done);
+    });
+
+    it("should perform a simple recipe with input as a field", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_to_morse.json`)
+            .field("input", "The crowds stared around wildly")
+            .expect(200)
+            .expect({
+                value: `- .... .
+-.-. .-. --- .-- -.. ...
+... - .- .-. . -..
+.- .-. --- ..- -. -..
+.-- .. .-.. -.. .-.. -.--`,
+                type: "string",
+            }, done);
+    });
+
+    it("should perform a simple recipe with input as a file", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_to_morse.json`)
+            .attach("input", `${testDataPath}/text_input.txt`)
+            .expect(200)
+            .expect({
+                value: `- .... .
+-.-. .-. --- .-- -.. ...
+... - .- .-. . -..
+.- .-. --- ..- -. -..
+.-- .. .-.. -.. .-.. -.--`,
+                type: "string",
+            }, done);
+    });
+
+    it("should bake a multi-op recipe with arguments", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_multi_op_with_args.json`)
+            .field("input", "some input")
+            .expect(200)
+            .expect({
+                value: "begin_something_anananaaaaak_da_aaak_da_aaaaananaaaaaaan_da_aaaaaaanan_da_aaak_end_something",
+                type: "string",
+            }, done);
+    });
+
+    it("should handle image files as input", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_detect_file_type.json`)
+            .attach("input", `${testDataPath}/chef.png`)
+            .expect(200)
+            .expect({
+                type: "string",
+                value: `File type:   Portable Network Graphics image
+Extension:   png
+MIME type:   image/png
+`
+            }, done);
+    });
+
+    it("should optionally transform the output to outputType", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_take_bytes.json`)
+            .attach("input", `${testDataPath}/text_input.txt`)
+            .field("outputType", "string")
+            .expect(200)
+            .expect({
+                type: "string",
+                value: "The c"
+            }, done);
+    });
+
+    it("should optionally transform the output to outputType, when outputType is an enum", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_take_bytes.json`)
+            .attach("input", `${testDataPath}/text_input.txt`)
+            .field("outputType", 1)
+            .expect(200)
+            .expect({
+                type: "string",
+                value: "The c"
+            }, done);
+    });
+
+    it("should set content-disposition header if File outputType is requested", (done) => {
+        request(app)
+            .post("/bake")
+            .attach("recipe", `${testDataPath}/recipe_take_bytes.json`)
+            .attach("input", `${testDataPath}/text_input.txt`)
+            .field("outputType", "file")
+            .expect(200)
+            .expect("Content-Disposition", "attachment")
+            .end((err, res) => {
+                if (err) return done(err);
+                assert.deepEqual(res.body.type, "File");
+                assert.deepEqual(res.body.value.name, "unknown");
+                assert.deepEqual(res.body.value.data.data, [84, 104, 101, 32, 99]);
+                return done();
+            });
     });
 
 });

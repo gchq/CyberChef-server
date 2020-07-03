@@ -1,0 +1,22 @@
+[
+  {
+    "op": "To Morse Code",
+    "args": [
+      "Dash/Dot",
+      "Backslash",
+      "Comma"
+    ]
+  },
+  {
+    "op": "Hex to PEM",
+    "args": [
+      "SOMETHING"
+    ]
+  },
+  {
+    "op": "To Snake case",
+    "args": [
+      false
+    ]
+  }
+]

@@ -10,8 +10,9 @@ Run CyberChef in a server and provide an API for clients to send [Cyberchef](htt
 
 CyberChef has a useful Node.js API, but sometimes we want to be able to programmatically run CyberChef recipes in languages other than JavaScript. By running this server, you can use CyberChef operations in any language, as long as you can communicate via HTTP.
 
-## Example use
-Assuming you've downloaded the repository and are running it locally:
+## Examples
+
+### Decode some morse code
 ```bash
 curl -X POST -H "Content-Type:application/json" -d '{"input":"... ---:.-.. --- -. --. --..--:.- -. -..:- .... .- -. -.- ...:..-. --- .-.:.- .-.. .-..:- .... .:..-. .. ... ....", "recipe":{"op":"from morse code", "args": {"wordDelimiter": "Colon"}}}' localhost:3000/bake
 ```
@@ -25,8 +26,11 @@ response:
 
 
 ## Features
-- **Compatible with recipes saved from CyberChef**.
-After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and find a suitable recipe, the exported recipe JSON can be used to post to the `/bake` endpoint. Just copy/paste it in as your `recipe` property as part of the POST body.
+- Compatible with recipes saved from CyberChef.
+    - After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and find a suitable recipe, the exported recipe JSON can be used to post to the `/bake` endpoint. Just copy/paste it in as your `recipe` property as part of the POST body.
+- Send files as input.
+    - See [Bake with multipart form data](#bake-files-with-multipart/form-data)
+
 
 
 ## Installing
@@ -165,6 +169,48 @@ Response:
     "type": "number"
 }
 ```
+
+### Bake files with multipart/form data
+
+CyberChef-server will handle `multipart/form` data so you can send files as input data.
+
+The parts are:
+
+|Part|type|Description|
+|---|---|--|
+|input|file or field|The input to bake. This can be a path to a file, or a field.|
+|recipe|file|The JSON file containing the recipe to bake the input with.|
+|outputType|field|**Optional.** The [Data Type](https://github.com/gchq/CyberChef/wiki/Adding-a-new-operation#data-types) that you would like the result of the bake to be returned as.|
+
+
+#### Example
+recipe.json
+```json
+[
+    "from hexdump",
+    "gunzip"
+]
+```
+hexdump.txt
+```
+00000000  1f 8b 08 00 12 bc f3 57 00 ff 0d c7 c1 09 00 20  |.....¼óW.ÿ.ÇÁ.. |
+00000010  08 05 d0 55 fe 04 2d d3 04 1f ca 8c 44 21 5b ff  |..ÐUþ.-Ó..Ê.D![ÿ|
+00000020  60 c7 d7 03 16 be 40 1f 78 4a 3f 09 89 0b 9a 7d  |`Ç×..¾@.xJ?....}|
+00000030  4e c8 4e 6d 05 1e 01 8b 4c 24 00 00 00           |NÈNm....L$...|
+```
+Send the hexdump. Specify the output type as string:
+```
+curl -F "input=@hexdump.txt" -F "recipe=@recipe.json" -F "outputType=string" localhost:3000/bake
+```
+Response:
+```
+{
+    "value": "So long and thanks for all the fish.",
+    "type": "string"
+}
+```
+
+
 
 ### `/magic`
 
