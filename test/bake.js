@@ -369,26 +369,6 @@ MIME type:   image/png
                 assert.deepEqual(res.body.value.data.data, [84, 104, 101, 32, 99]);
                 return done();
             });
-        //     /**
-        //      * Not sure this is how we want to present this. Need to validate with
-        //      * web page response.
-        //      */
-        //     type: "File",
-        //     value: {
-        //             data: {
-        //               data: [
-        //                 84,
-        //                 104,
-        //                 101,
-        //                 32,
-        //                 99,
-        //               ],
-        //               type: "Buffer"
-        //             },
-        //             lastModified: 1593784118511,
-        //             name: "unknown",
-        //             type: "application/unknown",
-        //           }
     });
 
 });

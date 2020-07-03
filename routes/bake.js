@@ -22,9 +22,13 @@ router.post("/", async function bakePost(req, res, next) {
 
 /**
  * bakeMultipartForm
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ *
+ * Bake using data from multipart form data.
+ * recipe must be a JSON file
+ * input can be a file or a string in a field.
+ * outputType (optional) must be a string in a field.
+ *
+ * Any errors are passed onto `next`.
  */
 async function bakeMultipartForm(req, res, next) {
     const form = formidable();
@@ -91,9 +95,8 @@ async function bakeMultipartForm(req, res, next) {
 
 /**
  * bakeBody
- * @param {} req
- * @param {*} res
- * @param {*} next
+ *
+ * Bake using data from POST body
  */
 async function bakeBody(req, res, next) {
 
