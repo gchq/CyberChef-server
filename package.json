@@ -26,8 +26,8 @@
   "scripts": {
     "nodemon": "nodemon",
     "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
-    "test": "TEST_LOGGING=true mocha -r esm",
-    "prod": "NODE_ENV=production node -r esm ./bin/www",
+    "test": "mocha -r esm",
+    "prod": "node -r esm ./bin/www",
     "lint": "./node_modules/.bin/eslint --fix .",
     "lint-test": "./node_modules/.bin/eslint ."
   },

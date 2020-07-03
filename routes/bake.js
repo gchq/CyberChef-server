@@ -1,7 +1,13 @@
+import fs from "fs";
+import { promisify } from "util";
+
 import { Router } from "express";
 import formidable from "formidable";
-const router = Router();
+
 import { bake, Dish } from "cyberchef/src/node/index.mjs";
+
+const router = Router();
+const readFile = promisify(fs.readFile);
 
 /**
  * bakePost
@@ -14,58 +20,81 @@ router.post("/", async function bakePost(req, res, next) {
     }
 });
 
+/**
+ * bakeMultipartForm
+ * @param {*} req
+ * @param {*} res
+ * @param {*} next
+ */
 async function bakeMultipartForm(req, res, next) {
     const form = formidable();
+    form.parse(req, async (err, fields, files) => {
+        try {
 
-    try {
-
-        form.parse(req, async (err, fields, files) => {
-
-            // req.log.warn(`Recipe: ${fields.recipe}`);
-            // req.log.warn(`Input: ${files.input}`);
-            // req.log.warn(`Other input: ${fields.input}`);
             if (err) {
                 throw err;
             }
 
-            if (!('recipe' in fields)) {
-                throw new Error("Could not find required 'recipe' field in multipart form data");
+            if (!("recipe" in files)) {
+                throw new TypeError("Could not find required 'recipe' attachment in multipart form data");
+            }
+
+            let recipe;
+            try {
+                const fileContents = await readFile(files.recipe.path);
+                recipe = JSON.parse(fileContents);
+            } catch (e) {
+                throw new TypeError(`Could not parse recipe file: ${e}`);
             }
 
             let dish;
 
-            // Case: data is in files.input
-            if('input' in files) {
-                // read the contents of the file and use it as an input
-                res.json({ fields, files });
-            } else if ('input' in fields) {
+            if ("input" in files) {
+                const input = await readFile(files.input.path);
+                dish = await bake(input, recipe);
 
-                dish = await bake(fields.input, fields.recipe);
+            } else if ("input" in fields) {
+                dish = await bake(fields.input, recipe);
 
             } else {
-                throw new Error("Could not find 'input' field in multipart form data.");
-            }
-
-            // Attempt to translate to another type. Any translation errors
-            // propagate through to the errorHandler.
-            if ('outputType' in fields) {
-                dish.get(req.body.outputType);
+                throw new TypeError("Could not find 'input' field in multipart form data.");
             }
 
             if (dish) {
+
+                if ("outputType" in fields) {
+                    // dish.get takes a typeEnum
+                    let typeEnum = parseInt(fields.outputType, 10);
+                    if (isNaN(typeEnum)) {
+                        typeEnum = Dish.typeEnum(fields.outputType);
+                    }
+                    dish.get(typeEnum);
+
+                    // Browser should handle files as a download
+                    if (typeEnum === Dish.FILE) {
+                        res.set("Content-Disposition", "attachment");
+                    }
+                }
+
                 res.send({
                     value: dish.value,
                     type: Dish.enumLookup(dish.type),
                 });
             }
 
-        });
+        } catch (e) {
+            next(e);
+        }
 
-    } catch (e) {
-        next(e);
-    }
+    });
 }
 
+/**
+ * bakeBody
+ * @param {} req
+ * @param {*} res
+ * @param {*} next
+ */
 async function bakeBody(req, res, next) {
 
     try {
