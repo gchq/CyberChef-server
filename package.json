@@ -36,7 +36,7 @@
     "cyberchef": "^9.21.0",
     "debug": "~2.6.9",
     "esm": "^3.2.25",
-    "express": "~4.16.1",
+    "express": "~4.17.3",
     "express-pino-logger": "^4.0.0",
     "helmet": "^3.21.1",
     "swagger-ui-express": "^4.1.2",
