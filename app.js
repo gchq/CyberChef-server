@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import pino from "express-pino-logger";
 import swaggerUi from "swagger-ui-express";
 import errorHandler from "./lib/errorHandler.js";
+import cors from "cors"
 
 // https://helmetjs.github.io/
 import helmet from "helmet";
@@ -15,12 +16,15 @@ import magicRouter from "./routes/magic";
 const app = express();
 app.disable("x-powered-by");
 
+app.use(cors({
+    origin: "*"
+}))
 
 if (process.env.NODE_ENV === "production") {
     app.use(pino({
         level: "warn"
     }));
-    app.use(helmet());
+    app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 } else {
     app.use(pino({
         level: "debug",
