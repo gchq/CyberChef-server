@@ -36,7 +36,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-
 // Swagger docs
 const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 
