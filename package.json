@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "cyberchef": "^9.21.0",
     "debug": "~2.6.9",
     "esm": "^3.2.25",
