@@ -1,6 +1,6 @@
 {
   "name": "cyberchef-server",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "An application providing API access to CyberChef",
   "author": "d98762625 <d98762625@gmail.com>",
   "license": "Apache-2.0",
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "cyberchef": "^9.21.0",
     "debug": "~2.6.9",
     "esm": "^3.2.25",
