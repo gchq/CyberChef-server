@@ -12,6 +12,7 @@ import helmet from "helmet";
 
 import bakeRouter from "./routes/bake";
 import magicRouter from "./routes/magic";
+import healthRouter from "./routes/health.js";
 
 const app = express();
 app.disable("x-powered-by");
@@ -41,6 +42,7 @@ app.use(cookieParser());
 const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 
 // Routes
+app.use("/health", healthRouter);
 app.use("/bake", bakeRouter);
 app.use("/magic", magicRouter);
 
