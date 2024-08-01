@@ -6,6 +6,34 @@ info:
 
 
 paths:
+  /health:
+    get:
+      summary: Server healthcheck
+      description: >
+        If the server is up, returns a 200 response and some basic info about uptime
+
+      responses:
+        '200':
+          description: Server is alive and healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+              example:
+                uptime: 1138.00
+                message: "OK"
+                timestamp: "Thu Dec 17 2017 19:23:54 GMT+0000"
+                
+        '503':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+              example:
+                uptime: 1138.00
+                message: "Internal Server Error: Not enough biscuits"
+                timestamp: "Thu Dec 19 2019 19:23:54 GMT+0000"
   /bake:
     post:
       summary: Bakes a recipe
@@ -40,8 +68,7 @@ paths:
           content:
             application/json:
               schema:
-                type: "string"
-                value: "Object"
+                $ref:  "#/components/schemas/BakeResponse"
               example:
                 type: "string"
                 value: "01001110,01111010,01001101,01100111,01001110,01101101,01011001,01100111,01001110,01101101,01010001,01100111,01001110,01101010,01010101,01100111,01001101,01101010,01000001,01100111,01001110,01101010,01101011,01100111,01001110,01101101,01010101,01100111,01001110,01111010,01000001,01100111,01001110,01111010,01010101,01100111,01001110,01111010,01010001,00111101"
@@ -71,9 +98,7 @@ paths:
           content:
             application/json:
               schema:
-                type: "string"
-                value:
-                  $ref: "#/components/schemas/MagicResponse"
+                $ref: "#/components/schemas/MagicResponse"
               example:
                 type: 6
                 value:
@@ -127,11 +152,12 @@ components:
       properties:
         op:
           type: string
-          required: true
         args:
           oneOf:
             - $ref: "#/components/schemas/ArgArray"
             - $ref: "#/components/schemas/ArgObject"
+      required:
+        - op
 
     OperationArray:
       type: array
@@ -141,7 +167,7 @@ components:
     ArgArray:
       type: array
       items:
-        type: {}
+        type: object
       example: 
         - 16
         - true
@@ -154,6 +180,16 @@ components:
         upperCaseHex: true
         includeFinalLength: false
 
+    BakeResponse:
+      type: object
+      properties:
+        type:
+          type: string
+        value:
+          oneOf:
+            - type: string
+            - type: number
+        
     MagicInput:
       type: object
       properties:
@@ -166,7 +202,7 @@ components:
       type: object
       properties:
         type:
-          type: int
+          type: integer
         value:
           type: array
           items:
@@ -177,16 +213,28 @@ components:
         recipe:
           type: array
           items:
-            type: Object
+            type: object
         data:
           type: string
         languageScores:
           type: array
           items:
-            type: Object
+            type: object
         matchingOps:
           type: array
           items:
-            type: Object
-        useful: bool
+            type: object
+        useful: 
+          type: boolean
+
+    HealthResponse:
+      type: object
+      properties:
+        uptime:
+          type: number
+        message:
+          type: string
+        timestamp:
+          type: string
+ 
  
