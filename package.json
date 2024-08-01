@@ -52,7 +52,7 @@
   },
   "devDependencies": {
     "eslint": "^6.5.1",
-    "mocha": "^6.2.1",
+    "mocha": "^10.2.0",
     "nodemon": "^1.19.4",
     "pino-pretty": "^3.2.2",
     "supertest": "^4.0.2"
