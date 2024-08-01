@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: CyberChef API
   description: A HTTP API that exposes some of CyberChef's functionality.
-  version: 0.0.9
+  version: 0.0.10
 
 
 paths:
