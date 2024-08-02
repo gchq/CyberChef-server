@@ -14,6 +14,9 @@ import bakeRouter from "./routes/bake";
 import magicRouter from "./routes/magic";
 import healthRouter from "./routes/health.js";
 
+
+const isProduction = process.env.NODE_ENV === "production";
+
 const app = express();
 app.disable("x-powered-by");
 
@@ -21,7 +24,7 @@ app.use(cors({
     origin: "*"
 }));
 
-if (process.env.NODE_ENV === "production") {
+if (isProduction) {
     app.use(pino({
         level: "warn"
     }));
