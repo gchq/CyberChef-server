@@ -1,10 +1,10 @@
 {
   "name": "cyberchef-server",
-  "version": "0.1.0",
+  "version": "1.0.0-beta",
   "description": "An application providing API access to CyberChef",
   "author": "d98762625 <d98762625@gmail.com>",
   "license": "Apache-2.0",
-  "homepage": "https://gchq.github.io/CyberChef",
+  "homepage": "https://github.com/gchq/CyberChef-server",
   "main": "index.mjs",
   "type": "module",
   "keywords": [
