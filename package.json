@@ -47,7 +47,8 @@
     "helmet": "^8.0.0",
     "pino-http": "^10.3.0",
     "swagger-ui-express": "^5.0.1",
-    "yaml": "^2.5.0"
+    "yaml": "^2.5.0",
+    "terser": "^5.31.1"
   },
   "repository": {
     "type": "git",
