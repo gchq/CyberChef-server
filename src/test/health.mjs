@@ -1,5 +1,5 @@
 import request from "supertest";
-import app from "../app";
+import app from "../app.mjs";
 
 describe("GET /health", function() {
     it("should respond with a success response", function(done) {

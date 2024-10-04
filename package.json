@@ -1,11 +1,12 @@
 {
   "name": "cyberchef-server",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "An application providing API access to CyberChef",
   "author": "d98762625 <d98762625@gmail.com>",
   "license": "Apache-2.0",
   "homepage": "https://gchq.github.io/CyberChef",
-  "main": "index.js",
+  "main": "index.mjs",
+  "type": "module",
   "keywords": [
     "cipher",
     "cypher",
@@ -25,23 +26,28 @@
   ],
   "scripts": {
     "nodemon": "nodemon",
-    "start": "DEBUG=cyberchef-server:server node -r esm ./bin/www",
-    "test": "mocha -r esm",
-    "prod": "NODE_ENV=production node -r esm ./bin/www",
+    "start": "DEBUG=cyberchef-server:server node index.mjs",
+    "prod": "NODE_ENV=production node index.mjs",
+    "test": "mocha src/test",
     "lint": "./node_modules/.bin/eslint --fix .",
-    "lint-test": "./node_modules/.bin/eslint ."
+    "lint-test": "./node_modules/.bin/eslint .",
+    "postinstall": "npm install cyberchef --no-save --ignore-scripts && node ./postinstall.js"
+  },
+  "devDependencies": {
+    "eslint": "^9.0.0",
+    "mocha": "^10.0.0",
+    "nodemon": "^3.1.4",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
-    "cyberchef": "^9.21.0",
-    "debug": "~2.6.9",
     "esm": "^3.2.25",
-    "express": "~4.16.1",
-    "express-pino-logger": "^4.0.0",
-    "helmet": "^3.21.1",
-    "swagger-ui-express": "^4.1.2",
-    "yaml": "^1.7.2"
+    "express": "^4.19.2",
+    "helmet": "^8.0.0",
+    "pino-http": "^10.3.0",
+    "swagger-ui-express": "^5.0.1",
+    "yaml": "^2.5.0"
   },
   "repository": {
     "type": "git",
@@ -49,12 +55,5 @@
   },
   "bugs": {
     "url": "https://github.com/gchq/CyberChef-server/issues"
-  },
-  "devDependencies": {
-    "eslint": "^6.5.1",
-    "mocha": "^6.2.1",
-    "nodemon": "^1.19.4",
-    "pino-pretty": "^3.2.2",
-    "supertest": "^4.0.2"
   }
 }

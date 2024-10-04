@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { bake, Dish } from "cyberchef/src/node/index.mjs";
+import { bake, Dish } from "cyberchef";
 
 /**
  * bakePost
