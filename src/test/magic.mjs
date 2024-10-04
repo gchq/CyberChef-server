@@ -1,6 +1,6 @@
 import assert from "assert";
 import request from "supertest";
-import app from "../app";
+import app from "../app.mjs";
 
 describe("POST /magic", function() {
     it("should error helpfully if there's no `input` property in request body", (done) => {

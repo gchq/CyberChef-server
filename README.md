@@ -30,6 +30,10 @@ After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and fin
 
 
 ## Installing
+While the instructions below are straightforward, it's worth understanding what happens under the hood as quirks in the installation process can cause issues with upgrades etc. The upstream CyberChef library uses a postinstall script to manipulate some dependenciesafter installation. That postinstal script doesn't work when install CC as a dependency into another project, so we now have our own postinstall process to install the CyberChef library (hence it does not appear in the package.json dependency list).
+
+This process can cause problems when updating libs, so the recommended approach is to remove node_modules and package-lock.json and install from scratch.
+
 - Clone the repository
 - `cd` into the project and run `npm install`
 - Run `npm run`

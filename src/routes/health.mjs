@@ -14,6 +14,7 @@ router.get("/", async function healthGet(req, res, next) {
         res.send(healthcheck);
     } catch (error) {
         healthcheck.message = error;
+        req.log.error(`Healthcheck failed with error: ${error}`);
         res.status(503).send();
     }
 });

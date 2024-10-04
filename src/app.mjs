@@ -2,34 +2,34 @@ import fs from "fs";
 import YAML from "yaml";
 import express from "express";
 import cookieParser from "cookie-parser";
-import pino from "express-pino-logger";
 import swaggerUi from "swagger-ui-express";
-import errorHandler from "./lib/errorHandler.js";
+import errorHandler from "./lib/errorHandler.mjs";
 import cors from "cors";
+import logger from "pino-http";
 
 // https://helmetjs.github.io/
 import helmet from "helmet";
 
-import bakeRouter from "./routes/bake";
-import magicRouter from "./routes/magic";
-import healthRouter from "./routes/health.js";
+import bakeRouter from "./routes/bake.mjs";
+import magicRouter from "./routes/magic.mjs";
+import healthRouter from "./routes/health.mjs";
 
 const app = express();
 app.disable("x-powered-by");
+
 
 app.use(cors({
     origin: "*"
 }));
 
 if (process.env.NODE_ENV === "production") {
-    app.use(pino({
-        level: "warn"
-    }));
     app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
+    app.use(logger({
+        level: "error",
+    }));
 } else {
-    app.use(pino({
-        level: "debug",
-        prettyPrint: true
+    app.use(logger({
+        level: "info"
     }));
 }
 
