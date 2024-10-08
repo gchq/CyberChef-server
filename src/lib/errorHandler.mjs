@@ -24,6 +24,7 @@ export default function errorHandler(err, req, res, next) {
     ) {
         res.status(400).send(err.message).end();
     } else {
-        res.status(500).send(err.stack).end();
+        req.log.error(err.stack);
+        res.status(500).send("Internal Server Error").end();
     }
 }

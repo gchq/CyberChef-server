@@ -13,6 +13,7 @@ import helmet from "helmet";
 import bakeRouter from "./routes/bake.mjs";
 import magicRouter from "./routes/magic.mjs";
 import healthRouter from "./routes/health.mjs";
+import batchBakeRouter from "./routes/batchBake.mjs";
 
 const app = express();
 app.disable("x-powered-by");
@@ -45,6 +46,8 @@ const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 app.use("/health", healthRouter);
 app.use("/bake", bakeRouter);
 app.use("/magic", magicRouter);
+// Batch routes
+app.use("/batch/bake", batchBakeRouter);
 
 
 // Default route

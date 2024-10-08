@@ -122,7 +122,51 @@ paths:
                           - 123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz
                           - false
                     useful: false
+  /batch/bake:
+    post:
+      summary: Bakes a batch of data with a recipe
+      description: >
+        Bake a recipe defined in JSON over and array of input data. For an example JSON recipe, build a recipe on 
+        [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON".
+        
+        Input data must be in the form of an array. All items will be baked individually 
+        and an individual result object provided for each in the response
 
+        The Recipe property in the payload is designed so that you only need to provide
+        arguments for operations if they are required, or you want to change them from the default.
+        For more information on accepted recipe formats, see the [bake section of the Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#bake)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/SingleOpBatchRecipe"
+                - $ref: "#/components/schemas/MultiOpBatchRecipe"
+            example:
+              input: ["some input", "some more input"]
+              recipe:
+                - op: toHex
+                - op: toBase64
+                - op: toBinary
+                  args:
+                    delimiter: "Comma"
+
+      responses:
+        '200':
+          description: Inputs were syntactically valid, individual bakes may or may not have succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BatchBakeResponse"
+              example:
+                - type: "string"
+                  value: "01001110"
+                  success: true
+                - error: "Bad Recipe"
+                  success: false
+        '400':
+          description: Bad request
 
 components:
   schemas:
@@ -147,6 +191,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Operation"
+
     Operation:
       type: object
       properties:
@@ -158,11 +203,64 @@ components:
             - $ref: "#/components/schemas/ArgObject"
       required:
         - op
+    
+    SingleOpBatchRecipe:
+      type: object
+      properties:
+        input:
+          type: object
+          example: "bake this"
+        recipe:
+          $ref: "#/components/schemas/Operation"
+          example:
+            op: "toHex"
+
+    MultiOpBatchRecipe:
+      type: object
+      properties:
+        input: 
+          type: string
+          example: "input for recipe"
+        recipe:
+          type: array
+          items:
+            $ref: "#/components/schemas/Operation"
 
     OperationArray:
       type: array
       items: 
         $ref: "#/components/schemas/Operation"
+
+    
+    InputArray:
+      type: array
+      items: 
+        type: string
+
+    BatchBakeResponse:
+      type: array
+      items:
+        oneOf:
+          - $ref: "#/components/schemas/SuccessfulBakeResult"
+          - $ref: "#/components/schemas/UnsuccessfulBakeResult"
+
+    SuccessfulBakeResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        value:
+          type: string
+        type:
+          type: string
+
+    UnsuccessfulBakeResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string    
       
     ArgArray:
       type: array
