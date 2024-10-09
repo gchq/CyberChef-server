@@ -1,6 +1,6 @@
 import { Router } from "express";
 const router = Router();
-import { magic } from "cyberchef/src/node/index.mjs";
+import { magic } from "cyberchef";
 
 /**
  * magicPost
