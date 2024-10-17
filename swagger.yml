@@ -126,8 +126,8 @@ paths:
     post:
       summary: Bakes a batch of data with a recipe
       description: >
-        Bake a recipe defined in JSON over and array of input data. For an example JSON recipe, build a recipe on 
-        [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON".
+        Bake a recipe defined in JSON over an array of input data. To obtain a JSON-formatted recipe, build a recipe on 
+        [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON" and copy the output.
         
         Input data must be in the form of an array. All items will be baked individually 
         and an individual result object provided for each in the response
@@ -163,10 +163,10 @@ paths:
                 - type: "string"
                   value: "01001110"
                   success: true
-                - error: "Bad Recipe"
+                - error: "Spline reticulation exception"
                   success: false
         '400':
-          description: Bad request
+          description: Bad request, most often a syntactically invalid recipe
 
 components:
   schemas:
