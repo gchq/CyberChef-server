@@ -15,6 +15,8 @@ import magicRouter from "./routes/magic.mjs";
 import healthRouter from "./routes/health.mjs";
 import batchBakeRouter from "./routes/batchBake.mjs";
 
+const isProduction = process.env.NODE_ENV === "production";
+
 const app = express();
 app.disable("x-powered-by");
 
@@ -23,7 +25,7 @@ app.use(cors({
     origin: "*"
 }));
 
-if (process.env.NODE_ENV === "production") {
+if (isProduction) {
     app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
     app.use(logger({
         level: "error",
