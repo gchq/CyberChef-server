@@ -2,13 +2,15 @@ openapi: 3.0.0
 info:
   title: CyberChef API
   description: A HTTP API that exposes some of CyberChef's functionality.
-  version: 0.0.10
+  version: 1.1.0
 
 
 paths:
   /health:
     get:
       summary: Server healthcheck
+      tags:
+        - Health
       description: >
         If the server is up, returns a 200 response and some basic info about uptime
 
@@ -37,6 +39,8 @@ paths:
   /bake:
     post:
       summary: Bakes a recipe
+      tags:
+        - Single Operations
       description: >
         Bake a recipe defined in JSON. For an example JSON recipe, build a recipe on 
         [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON".
@@ -78,6 +82,8 @@ paths:
   /magic:
     post:
       summary: Performs magic on some input
+      tags:
+        - Single Operations
       description: >
         Take some input data and optional arguments for the [Magic operation](https://github.com/gchq/CyberChef/wiki/Automatic-detection-of-encoded-data-using-CyberChef-Magic) and return JSON of results of automatic encoding detection of the inputted data.
 
@@ -125,6 +131,8 @@ paths:
   /batch/bake:
     post:
       summary: Bakes a batch of data with a recipe
+      tags:
+        - Batch Operations
       description: >
         Bake a recipe defined in JSON over an array of input data. To obtain a JSON-formatted recipe, build a recipe on 
         [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON" and copy the output.
@@ -219,7 +227,8 @@ components:
       type: object
       properties:
         input: 
-          type: string
+          type: array
+          items: string
           example: "input for recipe"
         recipe:
           type: array
