@@ -13,7 +13,12 @@ All major and minor version changes will be documented in this file. Details of 
 
 ## Details
 
-### [1.0.0-beta] - 2024-10-04
+### [1.1.0] - 2025-02-26
+- Added Batch Baking functionality
+- Fixed some typos in Readme
+- Improved Swagger spec
+
+### [1.0.0] - 2024-10-04
 - CyberChef functionality brought in line with the mainline release
 - Upgraded to use ESM modules throughout
 - Works with recent versions of NodeJS
