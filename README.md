@@ -170,6 +170,92 @@ Response:
 }
 ```
 
+### `/batch/bake`
+
+`/batch/bake` allows a user to POST multiple input values and a configuration for a CyberChef Recipe. The application will run each elemnt of the input through the recipe and return the results as an array of output objects.
+
+This endpoint accepts a POST request with the following body:
+
+|Parameter|Type|Description|
+|---|---|---|
+input|Array|The input data for the recipe. Currently accepts an array of Strings.
+recipe|String or Object or Array|One or more operations, with optional arguments. Uses default arguments if they're not defined here.
+outputType (optional)|String|The [Data Type](https://github.com/gchq/CyberChef/wiki/Adding-a-new-operation#data-types) that you would like the result of the bakes to be returned as. This will not work with `File` or `List<File>` at the moment.
+
+#### Example: one operation, default arguments
+```javascript
+{
+    "input": ["One", "two", "three", "four"],
+    "recipe": "to decimal"
+}
+```
+
+Response:
+```javascript
+[
+  {
+    "success": true,
+    "value": "79 110 101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116 119 111",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116 104 114 101 101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "102 111 117 114",
+    "type": "string"
+  }
+]
+
+```
+> For more information on how operation names are handled, see the [Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#operation-names)
+
+#### Example: one operation, non-default arguments by name
+```javascript
+{
+    "input": ["One", "two", "three", "four"],
+    "recipe": {
+        "op": "to decimal",
+        "args": {
+            "delimiter": "Colon"
+        }
+    }
+}
+```
+Response:
+```javascript
+[
+  {
+    "success": true,
+    "value": "79:110:101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116:119:111",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116:104:114:101:101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "102:111:117:114",
+    "type": "string"
+  }
+]
+```
+
 ### `/magic`
 
 [Find more information about what the Magic operation does here](https://github.com/gchq/CyberChef/wiki/Automatic-detection-of-encoded-data-using-CyberChef-Magic)

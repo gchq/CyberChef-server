@@ -2,13 +2,15 @@ openapi: 3.0.0
 info:
   title: CyberChef API
   description: A HTTP API that exposes some of CyberChef's functionality.
-  version: 0.0.10
+  version: 1.1.0
 
 
 paths:
   /health:
     get:
       summary: Server healthcheck
+      tags:
+        - Health
       description: >
         If the server is up, returns a 200 response and some basic info about uptime
 
@@ -37,6 +39,8 @@ paths:
   /bake:
     post:
       summary: Bakes a recipe
+      tags:
+        - Single Operations
       description: >
         Bake a recipe defined in JSON. For an example JSON recipe, build a recipe on 
         [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON".
@@ -78,6 +82,8 @@ paths:
   /magic:
     post:
       summary: Performs magic on some input
+      tags:
+        - Single Operations
       description: >
         Take some input data and optional arguments for the [Magic operation](https://github.com/gchq/CyberChef/wiki/Automatic-detection-of-encoded-data-using-CyberChef-Magic) and return JSON of results of automatic encoding detection of the inputted data.
 
@@ -122,7 +128,53 @@ paths:
                           - 123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz
                           - false
                     useful: false
+  /batch/bake:
+    post:
+      summary: Bakes a batch of data with a recipe
+      tags:
+        - Batch Operations
+      description: >
+        Bake a recipe defined in JSON over an array of input data. To obtain a JSON-formatted recipe, build a recipe on 
+        [CyberChef](https://gchq.github.io/CyberChef/) and click save. Select "clean JSON" and copy the output.
+        
+        Input data must be in the form of an array. All items will be baked individually 
+        and an individual result object provided for each in the response
 
+        The Recipe property in the payload is designed so that you only need to provide
+        arguments for operations if they are required, or you want to change them from the default.
+        For more information on accepted recipe formats, see the [bake section of the Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#bake)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - $ref: "#/components/schemas/SingleOpBatchRecipe"
+                - $ref: "#/components/schemas/MultiOpBatchRecipe"
+            example:
+              input: ["some input", "some more input"]
+              recipe:
+                - op: toHex
+                - op: toBase64
+                - op: toBinary
+                  args:
+                    delimiter: "Comma"
+
+      responses:
+        '200':
+          description: Inputs were syntactically valid, individual bakes may or may not have succeeded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BatchBakeResponse"
+              example:
+                - type: "string"
+                  value: "01001110"
+                  success: true
+                - error: "Spline reticulation exception"
+                  success: false
+        '400':
+          description: Bad request, most often a syntactically invalid recipe
 
 components:
   schemas:
@@ -147,6 +199,7 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Operation"
+
     Operation:
       type: object
       properties:
@@ -158,11 +211,65 @@ components:
             - $ref: "#/components/schemas/ArgObject"
       required:
         - op
+    
+    SingleOpBatchRecipe:
+      type: object
+      properties:
+        input:
+          type: object
+          example: "bake this"
+        recipe:
+          $ref: "#/components/schemas/Operation"
+          example:
+            op: "toHex"
+
+    MultiOpBatchRecipe:
+      type: object
+      properties:
+        input: 
+          type: array
+          items: string
+          example: "input for recipe"
+        recipe:
+          type: array
+          items:
+            $ref: "#/components/schemas/Operation"
 
     OperationArray:
       type: array
       items: 
         $ref: "#/components/schemas/Operation"
+
+    
+    InputArray:
+      type: array
+      items: 
+        type: string
+
+    BatchBakeResponse:
+      type: array
+      items:
+        oneOf:
+          - $ref: "#/components/schemas/SuccessfulBakeResult"
+          - $ref: "#/components/schemas/UnsuccessfulBakeResult"
+
+    SuccessfulBakeResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        value:
+          type: string
+        type:
+          type: string
+
+    UnsuccessfulBakeResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        error:
+          type: string    
       
     ArgArray:
       type: array
