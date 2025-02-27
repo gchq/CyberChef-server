@@ -30,7 +30,7 @@ After using [CyberChef](https://gchq.github.io/CyberChef/) to experiment and fin
 
 
 ## Installing
-While the instructions below are straightforward, it's worth understanding what happens under the hood as quirks in the installation process can cause issues with upgrades etc. The upstream CyberChef library uses a postinstall script to manipulate some dependenciesafter installation. That postinstal script doesn't work when install CC as a dependency into another project, so we now have our own postinstall process to install the CyberChef library (hence it does not appear in the package.json dependency list).
+While the instructions below are straightforward, it's worth understanding what happens under the hood as quirks in the installation process can cause issues with upgrades etc. The upstream CyberChef library uses a postinstall script to manipulate some dependencies after installation. That postinstall script doesn't work when installing CC as a dependency into another project, so we now have our own postinstall process to install the CyberChef library (hence it does not appear in the package.json dependency list).
 
 This process can cause problems when updating libs, so the recommended approach is to remove node_modules and package-lock.json and install from scratch.
 
@@ -168,6 +168,92 @@ Response:
     "value": 79,
     "type": "number"
 }
+```
+
+### `/batch/bake`
+
+`/batch/bake` allows a user to POST multiple input values and a configuration for a CyberChef Recipe. The application will run each elemnt of the input through the recipe and return the results as an array of output objects.
+
+This endpoint accepts a POST request with the following body:
+
+|Parameter|Type|Description|
+|---|---|---|
+input|Array|The input data for the recipe. Currently accepts an array of Strings.
+recipe|String or Object or Array|One or more operations, with optional arguments. Uses default arguments if they're not defined here.
+outputType (optional)|String|The [Data Type](https://github.com/gchq/CyberChef/wiki/Adding-a-new-operation#data-types) that you would like the result of the bakes to be returned as. This will not work with `File` or `List<File>` at the moment.
+
+#### Example: one operation, default arguments
+```javascript
+{
+    "input": ["One", "two", "three", "four"],
+    "recipe": "to decimal"
+}
+```
+
+Response:
+```javascript
+[
+  {
+    "success": true,
+    "value": "79 110 101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116 119 111",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116 104 114 101 101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "102 111 117 114",
+    "type": "string"
+  }
+]
+
+```
+> For more information on how operation names are handled, see the [Node API docs](https://github.com/gchq/CyberChef/wiki/Node-API#operation-names)
+
+#### Example: one operation, non-default arguments by name
+```javascript
+{
+    "input": ["One", "two", "three", "four"],
+    "recipe": {
+        "op": "to decimal",
+        "args": {
+            "delimiter": "Colon"
+        }
+    }
+}
+```
+Response:
+```javascript
+[
+  {
+    "success": true,
+    "value": "79:110:101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116:119:111",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "116:104:114:101:101",
+    "type": "string"
+  },
+  {
+    "success": true,
+    "value": "102:111:117:114",
+    "type": "string"
+  }
+]
 ```
 
 ### `/magic`

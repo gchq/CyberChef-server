@@ -13,6 +13,9 @@ import helmet from "helmet";
 import bakeRouter from "./routes/bake.mjs";
 import magicRouter from "./routes/magic.mjs";
 import healthRouter from "./routes/health.mjs";
+import batchBakeRouter from "./routes/batchBake.mjs";
+
+const isProduction = process.env.NODE_ENV === "production";
 
 const app = express();
 app.disable("x-powered-by");
@@ -22,7 +25,7 @@ app.use(cors({
     origin: "*"
 }));
 
-if (process.env.NODE_ENV === "production") {
+if (isProduction) {
     app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
     app.use(logger({
         level: "error",
@@ -45,6 +48,8 @@ const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 app.use("/health", healthRouter);
 app.use("/bake", bakeRouter);
 app.use("/magic", magicRouter);
+// Batch routes
+app.use("/batch/bake", batchBakeRouter);
 
 
 // Default route
