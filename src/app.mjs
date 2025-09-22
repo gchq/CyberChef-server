@@ -14,6 +14,7 @@ import bakeRouter from "./routes/bake.mjs";
 import magicRouter from "./routes/magic.mjs";
 import healthRouter from "./routes/health.mjs";
 import batchBakeRouter from "./routes/batchBake.mjs";
+import docsRouter from "./routes/docs.mjs";
 
 const isProduction = process.env.NODE_ENV === "production";
 
@@ -48,6 +49,7 @@ const swaggerFile = fs.readFileSync("./swagger.yml", "utf8");
 app.use("/health", healthRouter);
 app.use("/bake", bakeRouter);
 app.use("/magic", magicRouter);
+app.use("/docs", docsRouter);
 // Batch routes
 app.use("/batch/bake", batchBakeRouter);
 

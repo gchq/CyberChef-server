@@ -128,6 +128,38 @@ paths:
                           - 123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz
                           - false
                     useful: false
+  /docs:
+    post:
+      summary: Gets documentation for a specified operation
+      tags:
+        - Documentation
+      description: >
+        Given the name of an operation, returns a markdown-formatted string containing the operation's documentation.
+        This is suitable for rendering in a frontend application.
+
+        Note that this endpoint only returns the documentation for a single operation. It does not return
+        documentation for any operations that may be called by the specified operation (for example, operations
+        called by a "Magic" operation).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                operation:
+                  type: string
+              required:
+                - operation
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+        '400':
+          description: Bad request
   /batch/bake:
     post:
       summary: Bakes a batch of data with a recipe
@@ -343,5 +375,4 @@ components:
           type: string
         timestamp:
           type: string
- 
- 
+
