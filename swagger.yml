@@ -135,11 +135,7 @@ paths:
         - Documentation
       description: >
         Given the name of an operation, returns a markdown-formatted string containing the operation's documentation.
-        This is suitable for rendering in a frontend application.
-
-        Note that this endpoint only returns the documentation for a single operation. It does not return
-        documentation for any operations that may be called by the specified operation (for example, operations
-        called by a "Magic" operation).
+        The endpoint does not return documentation for any operations that may be called by the specified operation (for example, operations called by a "Magic" operation).
       requestBody:
         required: true
         content:
