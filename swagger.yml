@@ -228,7 +228,9 @@ components:
       properties:
         input: 
           type: array
-          items: string
+          items:
+            type: string
+            description: "Input string(s) for recipe"
           example: "input for recipe"
         recipe:
           type: array
