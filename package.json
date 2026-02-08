@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "eslint": "^9.39.2",
-    "mocha": "^10.8.2",
+    "mocha": "^11.7.5",
     "nodemon": "^3.1.11",
     "supertest": "^7.2.2"
   },
@@ -43,7 +43,7 @@
     "cookie-parser": "~1.4.7",
     "cors": "^2.8.6",
     "esm": "^3.2.25",
-    "express": "^4.22.1",
+    "express": "^5.2.1",
     "helmet": "^8.1.0",
     "pino-http": "^10.5.0",
     "swagger-ui-express": "^5.0.1",
