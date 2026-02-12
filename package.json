@@ -34,21 +34,21 @@
     "postinstall": "npm install cyberchef --no-save --ignore-scripts && node ./postinstall.js"
   },
   "devDependencies": {
-    "eslint": "^9.0.0",
-    "mocha": "^10.0.0",
-    "nodemon": "^3.1.4",
-    "supertest": "^7.0.0"
+    "eslint": "^9.39.2",
+    "mocha": "^11.3.0",
+    "nodemon": "^3.1.11",
+    "supertest": "^7.2.2"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "cors": "^2.8.5",
+    "cookie-parser": "~1.4.7",
+    "cors": "^2.8.6",
     "esm": "^3.2.25",
-    "express": "^4.19.2",
-    "helmet": "^8.0.0",
-    "pino-http": "^10.3.0",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "pino-http": "^10.5.0",
     "swagger-ui-express": "^5.0.1",
-    "yaml": "^2.5.0",
-    "terser": "^5.31.1"
+    "terser": "^5.46.0",
+    "yaml": "^2.8.2"
   },
   "repository": {
     "type": "git",
