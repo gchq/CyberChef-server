@@ -137,14 +137,14 @@ describe("POST /bake", function() {
             .send({
                 input: "irrelevant",
                 recipe: {
-                    op: "AES Encrypt",
-                    args: {
-                        key: "notsixteencharslong"
-                    }
+                    "op": "AES Encrypt",
+                    "args": [
+                        { "option": "UTF8", "string": "notsixteencharslong" }, { "option": "Hex", "string": "" }, "CBC", "Raw", "Hex", { "option": "Hex", "string": "" }
+                    ]
                 }
             })
             .expect(400)
-            .expect("Invalid key length: 3 bytes\n\nThe following algorithms will be used based on the size of the key:\n  16 bytes = AES-128\n  24 bytes = AES-192\n  32 bytes = AES-256", done);
+            .expect("Invalid key length: 19 bytes\n\nThe following algorithms will be used based on the size of the key:\n  16 bytes = AES-128\n  24 bytes = AES-192\n  32 bytes = AES-256", done);
     });
 
     it("should return a string output as a byte array, if outputType is defined", (done) => {
