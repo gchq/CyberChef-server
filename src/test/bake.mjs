@@ -147,6 +147,18 @@ describe("POST /bake", function() {
             .expect("Invalid key length: 19 bytes\n\nThe following algorithms will be used based on the size of the key:\n  16 bytes = AES-128\n  24 bytes = AES-192\n  32 bytes = AES-256", done);
     });
 
+    it("should return ArrayBuffer output as a JSON byte array", (done) => {
+        request(app)
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({input: "hello", recipe: "Encode text"})
+            .expect(200)
+            .expect({
+                value: [104, 101, 108, 108, 111],
+                type: "ArrayBuffer",
+            }, done);
+    });
+
     it("should return a string output as a byte array, if outputType is defined", (done) => {
         request(app)
             .post("/bake")

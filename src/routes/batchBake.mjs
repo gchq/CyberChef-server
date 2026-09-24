@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import { bake, Dish } from "cyberchef";
+import jsonSafeValue from "../lib/jsonSafeValue.mjs";
 
 /**
  * batchBakePost
@@ -33,7 +34,7 @@ router.post("/", async function batchBakePost(req, res, next) {
                 }
                 return {
                     success: true,
-                    value: retVal,
+                    value: jsonSafeValue(retVal),
                     type: Dish.enumLookup(dish.type),
                 };
             } catch (err) {

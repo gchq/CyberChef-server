@@ -1,6 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import { bake, Dish } from "cyberchef";
+import jsonSafeValue from "../lib/jsonSafeValue.mjs";
 
 /**
  * bakePost
@@ -21,7 +22,7 @@ router.post("/", async function bakePost(req, res, next) {
         }
 
         res.send({
-            value: dish.value,
+            value: jsonSafeValue(dish.value),
             type: Dish.enumLookup(dish.type),
         });
 
