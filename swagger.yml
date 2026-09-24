@@ -181,6 +181,10 @@ components:
     SingleOpRecipe:
       type: object
       properties:
+        valuesOnly:
+          type: boolean
+          default: false
+          description: Return only the baked value instead of the value/type response object.
         input:
           type: string
           example: "bake this"
@@ -192,6 +196,10 @@ components:
     MultiOpRecipe:
       type: object
       properties:
+        valuesOnly:
+          type: boolean
+          default: false
+          description: Return only the baked value instead of the value/type response object.
         input: 
           type: string
           example: "input for recipe"

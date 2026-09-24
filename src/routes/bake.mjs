@@ -20,6 +20,11 @@ router.post("/", async function bakePost(req, res, next) {
             dish.get(req.body.outputType);
         }
 
+        if (req.body.valuesOnly) {
+            res.send(dish.value);
+            return;
+        }
+
         res.send({
             value: dish.value,
             type: Dish.enumLookup(dish.type),

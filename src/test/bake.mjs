@@ -147,6 +147,32 @@ describe("POST /bake", function() {
             .expect("Invalid key length: 19 bytes\n\nThe following algorithms will be used based on the size of the key:\n  16 bytes = AES-128\n  24 bytes = AES-192\n  32 bytes = AES-256", done);
     });
 
+    it("should return only the baked value when valuesOnly is enabled", (done) => {
+        request(app)
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({
+                input: "hello",
+                recipe: "to hex",
+                valuesOnly: true,
+            })
+            .expect(200)
+            .expect("68 65 6c 6c 6f", done);
+    });
+
+    it("should honour outputType when valuesOnly is enabled", (done) => {
+        request(app)
+            .post("/bake")
+            .set("Content-Type", "application/json")
+            .send({
+                input: "hello",
+                recipe: "to hex",
+                outputType: "byte array",
+                valuesOnly: true,
+            })
+            .expect(200, [54, 56, 32, 54, 53, 32, 54, 99, 32, 54, 99, 32, 54, 102], done);
+    });
+
     it("should return a string output as a byte array, if outputType is defined", (done) => {
         request(app)
             .post("/bake")
