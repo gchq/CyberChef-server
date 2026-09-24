@@ -41,7 +41,11 @@ This process can cause problems when updating libs, so the recommended approach 
 
 
 ### Docker
-A Docker image can be built, then run by doing the following:
+Official versioned images are published to the GitHub Container Registry. Run the latest release with:
+
+- `docker run -it --rm --name=cyberchef-server -p 3000:3000 ghcr.io/gchq/cyberchef-server:latest`
+
+To build the image locally instead:
 
 - `git clone https://github.com/gchq/CyberChef-server`
 - `cd CyberChef-server`
