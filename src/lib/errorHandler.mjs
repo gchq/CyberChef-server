@@ -17,7 +17,15 @@ export default function errorHandler(err, req, res, next) {
         return next(err);
     }
 
-    if (
+    // Errors raised by the body parsers (e.g. request too large, malformed
+    // JSON) carry a client error status and are safe to expose.
+    if (err.type === "entity.too.large") {
+        res.status(413)
+            .send(`Request body too large. The maximum size is ${err.limit} bytes.`)
+            .end();
+    } else if (err.expose && err.status >= 400 && err.status < 500) {
+        res.status(err.status).send(err.message).end();
+    } else if (
         err instanceof TypeError ||
         err instanceof OperationError ||
         err instanceof DishError
