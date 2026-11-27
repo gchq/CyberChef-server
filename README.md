@@ -39,6 +39,12 @@ This process can cause problems when updating libs, so the recommended approach 
 - Run `npm run`
 - In a browser, navigate to `localhost:3000` to see usage documentation.
 
+### Configuration
+The following environment variables can be set:
+
+- `PORT` - the port to listen on (default `3000`).
+- `MAX_REQUEST_SIZE` - the maximum accepted request body size, e.g. `500kb` or `50mb` (default `10mb`). Larger requests are rejected with `413 Payload Too Large`.
+
 
 ### Docker
 A Docker image can be built, then run by doing the following:
@@ -47,6 +53,8 @@ A Docker image can be built, then run by doing the following:
 - `cd CyberChef-server`
 - `docker build -t cyberchef-server .`
 - `docker run -it --rm --name=cyberchef-server -p 3000:3000 cyberchef-server`
+
+To change the request size limit, pass e.g. `-e MAX_REQUEST_SIZE=50mb` to `docker run`.
 
 
 ## API overview

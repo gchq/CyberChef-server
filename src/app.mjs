@@ -17,6 +17,12 @@ import batchBakeRouter from "./routes/batchBake.mjs";
 
 const isProduction = process.env.NODE_ENV === "production";
 
+// Maximum accepted request body size. Accepts anything the `bytes` library
+// understands, e.g. "500kb" or "50mb". Express defaults to "100kb", which is
+// too small for many real-world inputs.
+const DEFAULT_MAX_REQUEST_SIZE = "10mb";
+const maxRequestSize = process.env.MAX_REQUEST_SIZE || DEFAULT_MAX_REQUEST_SIZE;
+
 const app = express();
 app.disable("x-powered-by");
 
@@ -36,8 +42,8 @@ if (isProduction) {
     }));
 }
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: maxRequestSize }));
+app.use(express.urlencoded({ extended: false, limit: maxRequestSize }));
 app.use(cookieParser());
 
 
