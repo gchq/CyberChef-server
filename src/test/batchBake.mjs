@@ -1,3 +1,6 @@
+import assert from "assert";
+import fs from "fs";
+import YAML from "yaml";
 import request from "supertest";
 import app from "../app.mjs";
 
@@ -279,4 +282,35 @@ describe("POST /batch/bake", function() {
             .expect("flowControl operations like Magic are not currently allowed in recipes for chef.bake in the Node API", done);
     });
 
+});
+
+describe("POST /batch/bake Swagger contract", function() {
+    const spec = YAML.parse(fs.readFileSync("./swagger.yml", "utf8"));
+    const requestExample = spec.paths["/batch/bake"].post.requestBody.content["application/json"].example;
+
+    it("should accept the documented request example", async () => {
+        const res = await request(app)
+            .post("/batch/bake")
+            .send(requestExample)
+            .expect(200);
+        assert.strictEqual(res.body.length, requestExample.input.length);
+    });
+
+    ["SingleOpBatchRecipe", "MultiOpBatchRecipe"].forEach((name) => {
+        const schema = spec.components.schemas[name];
+
+        it(`should require 'input' and 'recipe' in ${name}`, () => {
+            assert.deepStrictEqual([...(schema.required || [])].sort(), ["input", "recipe"]);
+        });
+
+        it(`should accept the documented ${name} input example`, async () => {
+            const input = schema.properties.input.example;
+            const res = await request(app)
+                .post("/batch/bake")
+                .send({input, recipe: schema.properties.recipe.example || requestExample.recipe})
+                .expect(200);
+            assert.strictEqual(res.body.length, input.length);
+            res.body.forEach((result) => assert.strictEqual(result.success, true));
+        });
+    });
 });
