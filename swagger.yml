@@ -214,10 +214,17 @@ components:
     
     SingleOpBatchRecipe:
       type: object
+      required:
+        - input
+        - recipe
       properties:
         input:
-          type: object
-          example: "bake this"
+          type: array
+          minItems: 1
+          description: "Input strings, each baked individually"
+          items:
+            type: string
+          example: ["bake this", "bake this too"]
         recipe:
           $ref: "#/components/schemas/Operation"
           example:
@@ -225,13 +232,17 @@ components:
 
     MultiOpBatchRecipe:
       type: object
+      required:
+        - input
+        - recipe
       properties:
-        input: 
+        input:
           type: array
+          minItems: 1
+          description: "Input strings, each baked individually"
           items:
             type: string
-            description: "Input string(s) for recipe"
-          example: "input for recipe"
+          example: ["input for recipe", "more input for recipe"]
         recipe:
           type: array
           items:
